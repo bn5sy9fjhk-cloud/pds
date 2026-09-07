@@ -1,63 +1,154 @@
-/* 霍桐PDS 用户端 pages 固定视觉层 */
-/* 最后加载，禁止外部缩放影响用户端页面 */
+/* 霍桐PDS 用户端 pages
+   与管理中心保持同一 Design Token
+   不允许页面切换改变字号、间距、布局
+*/
+
 body[data-page],body[data-page] *{
-  box-sizing:border-box;
+ box-sizing:border-box;
 }
+
 body[data-page]{
-  font-size:14px!important;
-  line-height:20px!important;
+ font-size:14px!important;
+ line-height:20px!important;
+ color:var(--text,#1f2937);
+ background:var(--bg,#f5f6f8)!important;
 }
-body[data-page] .topbar{
-  height:56px!important;
-  min-height:56px!important;
+
+/* 顶部：对齐管理中心 admin-top */
+body[data-page] .topbar,
+body[data-page] .pages-topbar{
+ height:56px!important;
+ min-height:56px!important;
+ background:#fff!important;
+ border-bottom:1px solid var(--border,#e5e7eb);
+ padding:0 20px!important;
 }
-body[data-page] .sidebar{
-  width:220px!important;
-  min-width:220px!important;
+
+/* 左侧：对齐管理端导航 */
+body[data-page] .sidebar,
+body[data-page] .pages-sidebar{
+ width:220px!important;
+ min-width:220px!important;
+ background:#fff!important;
+ border-right:1px solid var(--border,#e5e7eb);
+ padding:10px!important;
 }
+
+/* 导航 */
 body[data-page] .nav-item,
-body[data-page] .tree-row{
-  height:36px!important;
-  min-height:36px!important;
-  font-size:14px!important;
-  line-height:20px!important;
-  font-weight:400;
+body[data-page] .pages-nav-item{
+ height:36px!important;
+ min-height:36px!important;
+ display:flex!important;
+ align-items:center!important;
+ gap:8px!important;
+ padding:0 12px!important;
+ border-radius:6px!important;
+ font-size:14px!important;
+ line-height:20px!important;
+ font-weight:400!important;
+ color:#4b5563;
 }
+
+body[data-page] .nav-item svg,
+body[data-page] .pages-nav-icon svg{
+ width:16px!important;
+ height:16px!important;
+ flex:none;
+}
+
 body[data-page] .nav-item--on,
-body[data-page] .tree-row.is-on{
-  font-weight:400!important;
+body[data-page] .pages-nav-item.is-current{
+ background:#eef4ff!important;
+ color:#2563eb!important;
+ font-weight:400!important;
 }
+
+/* 页面标题 */
+body[data-page] .main-toolbar,
+body[data-page] .pages-main-toolbar{
+ height:48px!important;
+ display:flex!important;
+ align-items:center!important;
+ padding:0!important;
+ margin-bottom:12px!important;
+}
+
+body[data-page] .panel-headline,
+body[data-page] .pages-main-title{
+ font-size:16px!important;
+ line-height:24px!important;
+ font-weight:600!important;
+ letter-spacing:.1px;
+}
+
+/* 搜索 */
+body[data-page] input,
+body[data-page] .pages-search input{
+ height:34px!important;
+ font-size:14px!important;
+ line-height:20px!important;
+}
+
+/* 列表表格 */
+body[data-page] .file-panel,
+body[data-page] .pages-file-panel{
+ background:#fff;
+ border:1px solid #e5e7eb;
+ border-radius:8px;
+ overflow:hidden;
+}
+
+body[data-page] .read-head,
+body[data-page] .pages-head{
+ height:40px!important;
+ background:#fafafa;
+ border-bottom:1px solid #e5e7eb;
+ font-size:13px!important;
+ color:#6b7280;
+}
+
+body[data-page] .read-row,
+body[data-page] .pages-row{
+ height:42px!important;
+ min-height:42px!important;
+ font-size:14px!important;
+ line-height:20px!important;
+ border-bottom:1px solid #f0f1f3;
+}
+
+body[data-page] .read-name,
+body[data-page] .pages-name{
+ font-size:14px!important;
+ font-weight:400!important;
+}
+
+/* 图标统一 */
 body[data-page] svg{
-  flex:none;
+ flex:none;
 }
-body[data-page] .nav-item svg{
-  width:16px!important;
-  height:16px!important;
+
+body[data-page] .read-ico svg,
+body[data-page] .pages-file-icon svg{
+ width:18px!important;
+ height:18px!important;
 }
-body[data-page] .tree-row svg{
-  width:16px!important;
-  height:16px!important;
+
+/* 按钮 */
+body[data-page] button,
+body[data-page] .btn{
+ height:32px!important;
+ padding:0 12px!important;
+ font-size:13px!important;
+ border-radius:6px!important;
 }
-body[data-page] .read-ico svg{
-  width:18px!important;
-  height:18px!important;
+
+/* 禁止页面缩放影响 */
+body[data-page] *{
+ transform-origin:center;
 }
-body[data-page] .read-row{
-  height:42px!important;
-  min-height:42px!important;
-  font-size:13px!important;
-}
-body[data-page] .read-name{
-  font-size:14px!important;
-  font-weight:400!important;
-}
-body[data-page] .btn,
-body[data-page] button{
-  font-size:13px!important;
-}
-/* active 只改变颜色，不改变尺寸 */
+
 body[data-page] .nav-item--on,
-body[data-page] .tree-row.is-on{
- background:var(--nav-on);
- color:var(--primary);
+body[data-page] .pages-nav-item.is-current{
+ transform:none!important;
 }
