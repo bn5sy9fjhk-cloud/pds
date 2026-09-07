@@ -21,25 +21,23 @@ if errorlevel 1 (
     exit /b 1
 )
 
-rem Only block on tracked/staged changes. Untracked files such as local helper scripts
-rem do not stop sync. Git itself will still refuse a pull if an untracked file would
-rem be overwritten by an incoming tracked file.
+rem Only block on tracked/staged changes. Untracked helper files do not stop sync.
 git diff --quiet
 if errorlevel 1 goto DIRTY
 
 git diff --cached --quiet
 if errorlevel 1 goto DIRTY
 
-echo Fetching latest code...
-git fetch origin
-if errorlevel 1 goto ERROR
-
 echo Switching to master...
 git checkout master
 if errorlevel 1 goto ERROR
 
-echo Pulling latest master...
-git pull --ff-only origin master
+echo Fetching latest code from GitHub...
+git fetch origin master
+if errorlevel 1 goto NETWORK
+
+echo Applying fetched master locally...
+git merge --ff-only origin/master
 if errorlevel 1 goto ERROR
 
 echo.
@@ -60,11 +58,20 @@ echo Commit, stash, or discard tracked changes first.
 pause
 exit /b 1
 
+:NETWORK
+echo.
+echo ========================================
+echo GITHUB CONNECTION FAILED
+echo ========================================
+echo GitHub could not be reached. Try again later or check your network.
+pause
+exit /b 1
+
 :ERROR
 echo.
 echo ========================================
 echo UPDATE FAILED
 echo ========================================
-echo Check network, Git, or repository status.
+echo Check Git branch or local repository status.
 pause
 exit /b 1
