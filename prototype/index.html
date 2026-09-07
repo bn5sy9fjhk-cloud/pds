@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>霍桐PDS · 文件管理（视觉验证原型）</title>
+  <link rel="stylesheet" href="ui-base.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== 顶部 Header ===== -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 22 22" width="22" height="22"><title>霍桐PDS</title>
+          <rect x="3.5" y="3.5" width="15" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">霍桐PDS</span>
+    </div>
+
+    <div class="global-search" id="globalSearch">
+      <svg class="icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12.4 12.4 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="text" spellcheck="false" placeholder="搜索文件、文件夹、图纸……" aria-label="全局搜索"/>
+      <kbd class="keycap">Ctrl K</kbd>
+    </div>
+
+    <div class="topbar__right">
+      <button class="icon-btn" data-btn="upload" title="上传">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M10 14V5M6.5 8 10 4.5 13.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn has-dot" data-btn="notify" title="通知" aria-label="通知">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M6 8.5a4 4 0 0 1 8 0c0 3.5 1.4 4.5 1.4 4.5H4.6S6 12 6 8.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 15.5h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="dot" aria-hidden="true"></span>
+      </button>
+      <a class="btn btn--ghost btn--small top-admin-entry" href="admin/overview.html">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 2.5l5 2v4.2c0 3-2 5-5 5.3-3-.3-5-2.3-5-5.3V4.5l5-2Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 8.2l1.4 1.4L10 6.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        管理中心
+      </a>
+      <button class="user-chip" data-btn="avatar">
+        <span class="avatar">张</span>
+        <span class="user-name">张研</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- ===== 左侧 Sidebar ===== -->
+    <aside class="sidebar">
+      <nav class="side-nav" aria-label="主导航">
+        <button class="nav-item" data-nav="home">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 9.5 10 3.5l7 6V16a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 16V9.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span>我的文档</span>
+        </button>
+
+        <button class="nav-item nav-item--on" data-nav="dept-space" data-side-item="dept">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M2.5 5.5A1.5 1.5 0 0 1 4 4h3l2 2h7A1.5 1.5 0 0 1 17.5 7.5v7c0 .8.9-.2.9-2.2V9.5a2 2 0 0 0-2-2H9.6L7.4 5.5H4Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span>部门空间</span>
+        </button>
+
+        <button class="nav-item" data-nav="recent">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v3l2 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>最近使用</span>
+        </button>
+
+        <button class="nav-item" data-nav="starred">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="m10 3.6 1.9 3.9 4.3.6-3.1 3 .7 4.3L10 13.6l-3.8 2 .7-4.3-3.1-3 4.3-.6L10 3.6Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span>收藏</span>
+        </button>
+
+        <button class="nav-item" data-nav="trash">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M4 6h12M8 3.5h4M6 6l.6 9A1.5 1.5 0 0 0 8.1 16.5h3.8a1.5 1.5 0 0 0 1.5-1.4L14 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 9v4.5M11.5 9v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <span>回收站</span>
+        </button>
+      </nav>
+
+      <!-- 空间树 -->
+      <div class="side-block">
+        <p class="side-block__label">部门空间</p>
+        <ul class="space-tree" id="spaceTree">
+          <li class="tree-node">
+            <button class="tree-row tree-row--on" data-drive-dir="/研发部" data-setlabel="研发部">
+              <svg class="tree-arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M6 4.5 10 8l-4 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg class="tree-folder" viewBox="0 0 18 18" width="14" height="14" aria-hidden="true"><path d="M2.5 5A1.5 1.5 0 0 1 4 3.5h3l2 2H14A1.5 1.5 0 0 1 15.5 7v6A1.5 1.5 0 0 1 14 14.5H4A1.5 1.5 0 0 1 2.5 13Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              <span>研发部</span>
+            </button>
+          </li>
+          <li class="tree-node"><button class="tree-row" data-drive-dir="/生产部" data-setlabel="生产部">
+            <svg class="tree-folder" viewBox="0 0 18 18" width="14" height="14" aria-hidden="true"><path d="M2.5 5A1.5 1.5 0 0 1 4 3.5h3l2 2H14A1.5 1.5 0 0 1 15.5 7v6A1.5 1.5 0 0 1 14 14.5H4A1.5 1.5 0 0 1 2.5 13Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>生产部</span></button></li>
+          <li class="tree-node"><button class="tree-row" data-drive-dir="/销售部" data-setlabel="销售部">
+            <svg class="tree-folder" viewBox="0 0 18 18" width="14" height="14" aria-hidden="true"><path d="M2.5 5A1.5 1.5 0 0 1 4 3.5h3l2 2H14A1.5 1.5 0 0 1 15.5 7v6A1.5 1.5 0 0 1 14 14.5H4A1.5 1.5 0 0 1 2.5 13Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>销售部</span></button></li>
+        </ul>
+      </div>
+
+      <!-- 空间使用情况 -->
+      <div class="side-footer" id="sideCapacity">
+        <p class="side-block__label">空间使用情况</p>
+        <div class="capacity-label"><span id="capUsed">已用 128.4 GB</span><span id="capTotal">500 GB</span></div>
+        <div class="capacity-track" aria-hidden="true"><i class="capacity-fill" data-used="25.7"></i></div>
+      </div>
+    </aside>
+
+    <!-- ===== 主内容 ===== -->
+    <main class="main">
+      <div class="main-toolbar">
+        <nav class="crumb" id="crumb" aria-label="面包屑">
+          <button class="crumb__item" data-go="home">部门空间</button>
+          <span class="crumb__sep">/</span>
+          <button class="crumb__item" data-go="0">研发部</button>
+          <span class="crumb__sep">/</span>
+          <button class="crumb__item" data-go="1">产品资料</button>
+          <span class="crumb__sep">/</span>
+          <button class="crumb__item crumb__item--current" data-go="2">2026</button>
+        </nav>
+
+        <div class="mt-scale" id="uiScales" role="group" aria-label="界面大小">
+          <button class="mt-scale-btn is-on" data-sc="s" title="小">小</button>
+          <button class="mt-scale-btn" data-sc="m" title="中">中</button>
+          <button class="mt-scale-btn" data-sc="l" title="大">大</button>
+        </div>
+        <button class="btn btn--ghost toolbar-btn" data-act="collapse-nav" title="收起/展开侧栏">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M17.5 5V15M3 5l4 5-4 5M9.5 5l4 5-4 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="file-panel">
+        <!-- 工具栏（两组混合，按选中状态切换 class） -->
+        <div class="panel-bar" id="fileToolbar">
+          <div class="bar-group bar-group--idle" id="barIdle">
+            <button class="btn btn--primary" data-act="upload">
+              <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M16 13.5v.3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-.3M10 3v10M6.5 6 10 3l3.5 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              上传
+            </button>
+            <button class="btn btn--ghost" data-act="newfolder">
+              <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M2.5 6A1.5 1.5 0 0 1 4 4.5h3l2 2H14A1.5 1.5 0 0 1 15.5 8v2M2.5 10.5V14A1.5 1.5 0 0 0 4 15.5H14a1.5 1.5 0 0 0 1.5-1.5v-.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16.5 13.5V18M14 15.8h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              新建
+            </button>
+          </div>
+
+          <div class="bar-group bar-group--multi" id="barMulti" hidden>
+            <span class="bar-multi-count" id="multiCount">已选择 0 项</span>
+            <span class="bar-multi-sep" aria-hidden="true"></span>
+            <button class="btn btn--ghost btn--small" data-act="download">下载</button>
+            <button class="btn btn--ghost btn--small" data-act="move">移动</button>
+            <button class="btn btn--ghost btn--small" data-act="copy">复制</button>
+            <button class="btn btn--ghost btn--small" data-act="star">收藏</button>
+            <button class="btn btn--ghost btn--small btn--danger-text" data-act="delete">删除</button>
+            <button class="icon-btn icon-btn--small" data-act="more" title="更多操作">…</button>
+          </div>
+
+          <div class="bar-views">
+            <button class="view-toggle view-toggle--on" data-view="list" title="列表视图" aria-label="列表视图">
+              <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="3" y="4" width="14" height="2" rx="1"/><rect x="3" y="9" width="14" height="2" rx="1"/><rect x="3" y="14" width="14" height="2" rx="1"/></svg>
+            </button>
+            <button class="view-toggle" data-view="grid" title="网格视图" aria-label="网格视图">
+              <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="3" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="11" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="11" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 列表头部 -->
+        <div class="table-head" id="tableHead">
+          <div class="col-check"><input type="checkbox" id="checkAll" aria-label="全选"/></div>
+          <div class="col-sort" data-sort="name">名称</div>
+          <div class="col-type">类型</div>
+          <div class="col-sort col-size" data-sort="size">大小</div>
+          <div class="col-sort col-date" data-sort="mtime">修改时间</div>
+          <div class="col-user">修改人</div>
+          <div class="col-more" aria-hidden="true"></div>
+        </div>
+
+        <!-- 列表滚动体 -->
+        <div class="table-scroll" id="fileListWrap">
+          <div class="file-list" id="fileList" role="list"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===== 查看详情 Drawer ===== -->
+    <div class="drawer-scrim" id="drawerScrim" hidden></div>
+    <aside class="drawer" id="detailDrawer" aria-hidden="true">
+      <div class="drawer__head">
+        <span>查看详情</span>
+        <button class="icon-btn icon-btn--small" id="closeDrawer" aria-label="关闭"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="drawer__body" id="detailBody"><!-- 由 JS 填充 --></div>
+    </aside>
+
+    <!-- ===== 通用 Dialog / Menu 层（由 JS 挂在 root） ===== -->
+    <div id="modalRoot"></div>
+
+    <!-- ===== 上传任务浮层 ===== -->
+    <div class="upload-float" id="uploadFloat" hidden>
+      <button class="upload-float__trigger" id="uploadFloatTrg" type="button">
+        <span class="upload-pulse" id="upPulse" aria-hidden="true"></span>
+        <span class="upload-float__text" id="upFloatTitle"><b>上传任务</b> · 2 个文件正在上传</span>
+        <span class="progress-mini"><i id="upFloatBar"></i></span>
+        <span class="upload-float__caret" id="upFloatCaret"><svg viewBox="0 0 14 14" width="15" height="15" aria-hidden="true"><path d="M4 5.5 7 8l3-2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="upload-panel" id="uploadPanel" hidden>
+        <div class="upload-panel__head">
+          <span class="up-title">上传任务</span>
+          <span class="up-head-actions">
+            <button class="icon-btn icon-btn--small" data-act="pin" id="upPin" aria-label="固定">
+              <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 3v6.2M5.2 12.2 8 14.6l2.8-2.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn icon-btn--small" id="upClosePanel" aria-label="关闭面板"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+          </span>
+        </div>
+        <div class="up-list" id="upTasks">
+        </div>
+        <div class="up-foot" id="upFoot">已完成 8　·　失败 1</div>
+      </div>
+    </div>
+
+    <!-- ===== Demo 状态切换（右下，视觉克制） ===== -->
+    <div class="demo-control">
+      <span class="demo-control__hint">演示状态</span>
+      <div class="demo-pills" id="demoPills">
+        <button class="demo-pill is-on" data-state="A">A 正常浏览</button>
+        <button class="demo-pill" data-state="B">B 已选 3 项</button>
+        <button class="demo-pill" data-state="C">C 详情+上传</button>
+      </div>
+    </div>
+
+  <script src="ui-scale.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

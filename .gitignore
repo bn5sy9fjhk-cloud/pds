@@ -1,0 +1,12 @@
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.vscode/
+.idea/
+*.swp
+
+# 依赖与构建产物（本项目为静态原型，无 node_modules，如后续引入再放开）
+node_modules/
+dist/

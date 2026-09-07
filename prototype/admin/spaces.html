@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霍桐PDS · 管理中心 · 空间管理（视觉验证原型）</title>
+<link rel="stylesheet" href="../ui-base.css">
+<link rel="stylesheet" href="../admin.css">
+</head>
+<body class="admin-app" data-key="spaces">
+  <header class="admin-top">
+    <a class="admin-crumb brand-link" href="../index.html" title="返回文件工作台"><svg viewBox="0 0 22 22" width="20" height="20" aria-hidden="true"><rect x="3.5" y="3.5" width="15" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <span class="brand-name">霍桐PDS</span>
+      <span class="a-topbar__crumb">管理中心</span>
+      <span class="anc current-name" data-cur>空间管理</span>
+    </a>
+    <span class="spacer" style="flex:1"></span>
+    <div class="mt-scale" id="uiScales" role="group" aria-label="界面大小" style="margin-right:6px">
+      <button class="mt-scale-btn" data-mgrsc="s" type="button" title="界面显示调小">小</button>
+      <button class="mt-scale-btn is-on" data-mgrsc="m" type="button" title="界面显示中等">中</button>
+      <button class="mt-scale-btn" data-mgrsc="l" type="button" title="界面显示放大">大</button>
+    </div>
+    <span class="role-chip"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 8.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM2.5 14c.4-2.7 2.6-3.2 5.5-3.2s5.1.5 5.5 3.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>张研 · <b>平台管理员</b></span>
+  </header>
+
+  <div class="admin-frame">
+    <div class="admin-nav">
+      <nav class="a-nav" id="mNav" aria-label="管理中心导航" style="width:auto;border:0;height:auto"></nav>
+    </div>
+    <main class="a-main admin-main" id="aMain">
+      <div id="aPageRoot" class="a-shell-page"></div>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="../admin-icons.js"></script>
+  <script src="../admin-core.js"></script>
+  <script src="../admin-pages-ops.js"></script>
+  <script src="../ui-scale.js"></script>
+  <script src="../admin-shell.js"></script>
+</body>
+</html>
