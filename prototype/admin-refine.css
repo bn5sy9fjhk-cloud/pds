@@ -1,0 +1,156 @@
+/* 霍桐PDS · 管理后台二次精修
+   目标：保持 org 的字号/行距/密度基线；让操作按钮可识别，并压平权限与系统配置层级。 */
+
+/* ---------- 1) 管理后台操作按钮：表格里的“编辑 / 设置容量 / 查看详情”等不再是裸文字 ---------- */
+.admin-app .table-x .t-a,
+.admin-app .cell-actions .t-a,
+.admin-app .rest .t-a,
+.admin-app .action-btn{
+  box-sizing:border-box;
+  min-width:0;
+  height:28px;
+  padding:0 10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border:1px solid var(--adm-bd-default,#E3E7ED);
+  border-radius:6px;
+  background:#fff;
+  color:var(--text-2);
+  font-size:12px;
+  line-height:1;
+  font-weight:500;
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.admin-app .table-x .t-a:hover,
+.admin-app .cell-actions .t-a:hover,
+.admin-app .rest .t-a:hover,
+.admin-app .action-btn:hover{
+  background:var(--adm-head-bg,#FAFBFC);
+  border-color:var(--adm-bd-strong,#D7DCE4);
+  color:var(--text);
+}
+.admin-app .table-x .t-a.is-danger,
+.admin-app .rest .t-a.is-danger,
+.admin-app .action-btn.is-danger{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 22%,#fff)}
+.admin-app .table-x .t-a.is-danger:hover,
+.admin-app .rest .t-a.is-danger:hover{background:var(--danger-soft,#fff5f5)}
+body[data-ui-scale="s"] .admin-app .table-x .t-a,
+body[data-ui-scale="s"] .admin-app .cell-actions .t-a,
+body[data-ui-scale="s"] .admin-app .rest .t-a{height:26px;padding:0 8px}
+body[data-ui-scale="l"] .admin-app .table-x .t-a,
+body[data-ui-scale="l"] .admin-app .cell-actions .t-a,
+body[data-ui-scale="l"] .admin-app .rest .t-a{height:30px;padding:0 11px;font-size:13px}
+
+/* 多操作按钮保持紧凑，不再像一串链接 */
+.admin-app .cell-actions,.admin-app .rest{gap:6px}
+
+/* ---------- 2) 空间成员权限：收成 左成员 / 右权限 两层，不再堆叠卡片 ---------- */
+.admin-app[data-key="perms"] .admin-page-head__meta{display:none}
+.admin-app[data-key="perms"] .admin-toolbar{border-bottom:1px solid var(--adm-bd-default)}
+.admin-app[data-key="perms"] .perm-cols{grid-template-columns:244px minmax(0,1fr)}
+.admin-app[data-key="perms"] .perm-cols>div:first-child{border-right:1px solid var(--adm-bd-default)}
+.admin-app[data-key="perms"] .perm-list-holder{display:flex;flex-direction:column;min-height:0;height:100%}
+.admin-app[data-key="perms"] .ofilter{padding:8px 10px;border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="perms"] .ofilter .kw-wrap,.admin-app[data-key="perms"] .ofilter .kw-wrap .inp{width:100%}
+.admin-app[data-key="perms"] .perm-who{padding:4px 6px 8px;overflow:auto}
+.admin-app[data-key="perms"] .mem-item{
+  min-height:50px;margin:1px 0;padding:6px 8px;border-radius:6px;
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+}
+.admin-app[data-key="perms"] .mem-item:hover{background:var(--adm-head-bg)}
+.admin-app[data-key="perms"] .mem-item--on{background:var(--nav-on);color:var(--primary)}
+.admin-app[data-key="perms"] .mem-body{display:flex;flex-direction:column;min-width:0;gap:2px}
+.admin-app[data-key="perms"] .mem-body .mn{display:flex;align-items:center;gap:6px;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500}
+.admin-app[data-key="perms"] .mem-body .ms{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.admin-app[data-key="perms"] .perm-editor{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.admin-app[data-key="perms"] .ped-head{flex:none;background:#fff;border-bottom:1px solid var(--adm-bd-default)}
+.admin-app[data-key="perms"] .pe-head{min-height:58px;padding:8px 24px;border:0}
+.admin-app[data-key="perms"] .pe-name{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600}
+.admin-app[data-key="perms"] .pe-scope{margin-left:auto}
+.admin-app[data-key="perms"] .pe-presets{
+  min-height:44px;padding:6px 24px;border-top:1px solid var(--adm-bd-subtle);border-bottom:0;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.admin-app[data-key="perms"] .pe-presets .lbl{margin-right:4px;font-size:var(--fs-label);color:var(--text-3)}
+.admin-app[data-key="perms"] .preset{
+  height:28px;padding:0 10px;border:1px solid var(--adm-bd-default);border-radius:6px;background:#fff;
+  color:var(--text-2);font-size:12px;line-height:1;cursor:pointer;
+}
+.admin-app[data-key="perms"] .preset:hover{background:var(--adm-head-bg);border-color:var(--adm-bd-strong);color:var(--text)}
+.admin-app[data-key="perms"] .ped-body{flex:1;min-height:0;overflow:auto;background:#fff}
+.admin-app[data-key="perms"] .perm-group__t{
+  height:38px;padding:0 24px;display:flex;align-items:center;
+  background:var(--adm-head-bg);border-bottom:1px solid var(--adm-bd-default);
+  color:var(--text-2);font-size:var(--fs-th);line-height:var(--fs-th-lh);font-weight:500;
+}
+.admin-app[data-key="perms"] .capability{
+  min-height:52px;padding:7px 24px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--adm-bd-subtle);background:#fff;
+}
+.admin-app[data-key="perms"] .capability:hover{background:var(--adm-head-bg)}
+.admin-app[data-key="perms"] .cap-left{flex:1;min-width:0}
+.admin-app[data-key="perms"] .cap-title{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text)}
+.admin-app[data-key="perms"] .cap-title .u-faint{margin-left:8px;font-weight:400}
+.admin-app[data-key="perms"] .cap-check{margin-left:auto;display:flex;align-items:center;gap:8px}
+.admin-app[data-key="perms"] .ped-readonly{margin:0;padding:8px 24px;border:0;border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="perms"] .pd-danger{margin:14px 24px;border:1px solid var(--adm-bd-default);border-radius:8px;background:#fff}
+.admin-app[data-key="perms"] .pd-row{padding:14px 16px}
+.admin-app[data-key="perms"] .ped-foot{
+  flex:none;min-height:54px;padding:8px 24px;display:flex;align-items:center;gap:8px;
+  border-top:1px solid var(--adm-bd-default);background:#fff;
+}
+.admin-app[data-key="perms"] .ped-foot .spacer{flex:1}
+.admin-app[data-key="perms"] .pe-save-note{max-width:420px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- 3) 系统配置：去“配置卡片墙”，改为连续设置表单 ---------- */
+.admin-app[data-key="syscfg"] .admin-page-head__meta{display:none}
+.admin-app[data-key="syscfg"] .cfg-layout{
+  flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:0;margin:0;background:#fff;
+}
+.admin-app[data-key="syscfg"] .cfg-col{min-width:0;border-right:1px solid var(--adm-bd-default);overflow:auto}
+.admin-app[data-key="syscfg"] .cfg-aside{width:auto;min-width:0;padding:0;background:#fff}
+.admin-app[data-key="syscfg"] .form-sec{margin:0;border:0;border-radius:0;background:#fff}
+.admin-app[data-key="syscfg"] .form-sec+.form-sec{border-top:1px solid var(--adm-bd-default)}
+.admin-app[data-key="syscfg"] .form-sec__t{
+  min-height:46px;padding:0 24px;display:flex;align-items:center;gap:10px;
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);background:var(--adm-head-bg);
+  font-size:var(--fs-module);line-height:var(--fs-module-lh);font-weight:600;color:var(--text);
+}
+.admin-app[data-key="syscfg"] .form-sec__t small{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);font-weight:400;color:var(--text-3)}
+.admin-app[data-key="syscfg"] .form-sec__b{
+  display:grid;grid-template-columns:minmax(260px,1fr) minmax(260px,1fr);gap:0;padding:0 24px;
+}
+.admin-app[data-key="syscfg"] .form-field{
+  min-height:66px;padding:10px 0;display:grid;grid-template-columns:132px minmax(0,1fr);align-items:center;gap:12px;
+  border-bottom:1px solid var(--adm-bd-subtle);
+}
+.admin-app[data-key="syscfg"] .form-field:nth-child(odd){padding-right:18px}
+.admin-app[data-key="syscfg"] .form-field:nth-child(even){padding-left:18px}
+.admin-app[data-key="syscfg"] .form-field .field-label{font-size:var(--fs-body);line-height:var(--fs-body-lh);color:var(--text-2)}
+.admin-app[data-key="syscfg"] .form-field .inp,
+.admin-app[data-key="syscfg"] .form-field .sel{width:100%;height:34px}
+.admin-app[data-key="syscfg"] .form-field.wide{grid-column:1/-1!important;padding-left:0!important;padding-right:0!important;display:grid!important;grid-template-columns:132px minmax(0,1fr);align-items:start}
+.admin-app[data-key="syscfg"] .form-field.wide>.field-label{padding-top:8px}
+.admin-app[data-key="syscfg"] .field-hint{grid-column:2;margin:5px 0 0}
+.admin-app[data-key="syscfg"] .cfg-aside .panel__head{min-height:46px;padding:0 16px;background:var(--adm-head-bg);border-bottom:1px solid var(--adm-bd-default)}
+.admin-app[data-key="syscfg"] .cfg-aside .panel__head .t{font-size:var(--fs-label);font-weight:500;color:var(--text-2)}
+.admin-app[data-key="syscfg"] #recentCfg{padding:4px 0}
+.admin-app[data-key="syscfg"] #recentCfg .a-kv{padding:9px 16px;border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="syscfg"] #recentCfg dt{font-size:var(--fs-main);line-height:var(--fs-main-lh);color:var(--text);font-weight:500}
+.admin-app[data-key="syscfg"] #recentCfg dd{margin-top:2px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="syscfg"] .aside-actions{padding:10px 12px;margin:0;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--adm-bd-default)}
+.admin-app[data-key="syscfg"] .aside-actions .btn{width:100%;justify-content:flex-start}
+
+@media (max-width:1180px){
+  .admin-app[data-key="syscfg"] .cfg-layout{grid-template-columns:1fr}
+  .admin-app[data-key="syscfg"] .cfg-col{border-right:0}
+  .admin-app[data-key="syscfg"] .cfg-aside{border-top:1px solid var(--adm-bd-default)}
+  .admin-app[data-key="syscfg"] .form-sec__b{grid-template-columns:1fr}
+  .admin-app[data-key="syscfg"] .form-field{padding-left:0!important;padding-right:0!important}
+}
