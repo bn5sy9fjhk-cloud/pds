@@ -1,0 +1,89 @@
+/* 霍桐PDS · pages 公共视觉补充层
+   所有 pages/*.html 统一加载：顶部搜索、当前导航高亮、部门子项高亮。
+   本文件只放跨页面公共样式，不放单页业务样式。 */
+
+body[data-page] .topbar__center-headline{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:160px;
+  padding:0 20px;
+  overflow:visible;
+}
+body[data-page] .page-global-search{
+  width:min(100%,520px);
+  height:34px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 10px;
+  background:#F5F6F8;
+  border:1px solid transparent;
+  border-radius:6px;
+  color:var(--text-3);
+  transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;
+}
+body[data-page] .page-global-search:focus-within{
+  background:#fff;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(36,84,225,.10);
+}
+body[data-page] .page-global-search svg{flex:none;width:16px;height:16px}
+body[data-page] .page-global-search input{
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  font:inherit;
+  font-size:13px;
+  line-height:20px;
+}
+body[data-page] .page-global-search input::placeholder{color:var(--text-3)}
+body[data-page] .page-global-search .search-key{
+  flex:none;
+  height:20px;
+  display:inline-flex;
+  align-items:center;
+  padding:0 6px;
+  border:1px solid var(--border);
+  border-bottom-color:var(--border-2);
+  border-radius:4px;
+  background:#fff;
+  color:var(--text-3);
+  font-size:11px;
+  line-height:18px;
+  font-family:var(--font);
+}
+
+/* 当前一级导航：所有 pages 页面只允许一个高亮项 */
+body[data-page] .nav-item.is-current,
+body[data-page] .nav-item[aria-current="page"]{
+  background:var(--nav-on)!important;
+  color:var(--primary)!important;
+  font-weight:500;
+}
+body[data-page] .nav-item.is-current svg,
+body[data-page] .nav-item[aria-current="page"] svg{color:var(--primary)!important}
+
+/* 部门子项选择态。后续通过 ?dept=研发部 或 data-dept 统一驱动。 */
+body[data-page] .side-sub .tree-row.is-current,
+body[data-page] .side-sub .tree-row[aria-current="page"]{
+  background:var(--nav-on);
+  color:var(--primary);
+  font-weight:500;
+}
+
+@media (max-width:1120px){
+  body[data-page] .topbar__center-headline{padding:0 10px}
+  body[data-page] .page-global-search{max-width:360px}
+  body[data-page] .page-global-search .search-key{display:none}
+}
+@media (max-width:900px){
+  body[data-page] .breadcrumb-marker,
+  body[data-page] .brand-sep{display:none}
+  body[data-page] .topbar__left{min-width:150px}
+  body[data-page] .topbar__right{min-width:150px}
+}
