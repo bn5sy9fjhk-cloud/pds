@@ -1,0 +1,115 @@
+/* 霍桐PDS · 用户端公共视觉层
+   index + pages/* 共用。只统一壳、公共控件与文件夹图标，不改业务数据。 */
+
+/* ---------- 公共页面骨架 ---------- */
+body:not(.admin-app){
+  --user-page-x:24px;
+  --user-divider:var(--border,#E3E7EF);
+  --user-divider-soft:#EEF1F5;
+  --user-head-bg:#FAFBFC;
+}
+body:not(.admin-app) .topbar{
+  background:#fff;
+  border-bottom:1px solid var(--user-divider);
+}
+body:not(.admin-app) .brand-name{font-weight:600;letter-spacing:0}
+body:not(.admin-app) .sidebar{
+  background:#fff;
+  border-right:1px solid var(--user-divider);
+}
+body:not(.admin-app) .main{background:#F7F8FA}
+body:not(.admin-app) .main-toolbar{
+  background:#fff;
+  border-bottom:1px solid var(--user-divider);
+}
+body:not(.admin-app) .file-panel{
+  background:#fff;
+  border-color:var(--user-divider);
+  box-shadow:none;
+}
+body:not(.admin-app) .panel-bar{border-bottom-color:var(--user-divider)}
+
+/* 主导航与部门树统一密度 */
+body:not(.admin-app) .nav-item,
+body:not(.admin-app) .tree-row{
+  border-radius:5px;
+  letter-spacing:0;
+}
+body:not(.admin-app) .nav-item--on,
+body:not(.admin-app) .tree-row--on,
+body:not(.admin-app) .side-sub .tree-row.is-on{
+  background:var(--nav-on);
+  color:var(--primary);
+}
+body:not(.admin-app) .side-block__label{
+  letter-spacing:.2px;
+  font-weight:500;
+}
+
+/* ---------- 公共文件夹图标 ----------
+   所有部门空间/子目录都使用同一 20x20 线性文件夹，不再混 PNG、实心、不同笔画。 */
+.pds-folder-icon,
+body:not(.admin-app) .cell-file-icon.fd,
+body:not(.admin-app) .read-name.is-folder .read-ico,
+body:not(.admin-app) .tree-folder,
+body:not(.admin-app) .side-sub .tree-row .pds-folder-icon{
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#D89B2B;
+  border-radius:5px;
+  background:#FFF8E8;
+}
+.pds-folder-icon svg,
+body:not(.admin-app) .cell-file-icon.fd svg,
+body:not(.admin-app) .read-name.is-folder .read-ico svg,
+body:not(.admin-app) .tree-folder svg{
+  width:17px!important;
+  height:17px!important;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.45;
+}
+/* 侧栏部门树图标尺寸稍小，但视觉语言一致 */
+body:not(.admin-app) .tree-row .tree-folder{
+  width:22px;height:22px;flex-basis:22px;
+}
+
+/* 网格模式的文件夹预览：公共 SVG 替代 wenjian.png */
+body:not(.admin-app) .grid-tile-preview.is-folder-public{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+}
+body:not(.admin-app) .grid-tile-preview.is-folder-public .pds-folder-icon{
+  width:48px;height:48px;border-radius:10px;
+}
+body:not(.admin-app) .grid-tile-preview.is-folder-public .pds-folder-icon svg{
+  width:30px!important;height:30px!important;
+}
+
+/* 文件列表公共层级 */
+body:not(.admin-app) .file-row,
+body:not(.admin-app) .read-row{border-bottom-color:var(--user-divider-soft)}
+body:not(.admin-app) .file-row:hover,
+body:not(.admin-app) .read-row:hover{background:var(--user-head-bg)}
+body:not(.admin-app) .cell-name,
+body:not(.admin-app) .read-name{letter-spacing:0}
+
+/* 公共按钮：避免同一用户端出现三套按钮轮廓 */
+body:not(.admin-app) .btn{
+  border-radius:6px;
+  font-weight:500;
+  letter-spacing:0;
+}
+body:not(.admin-app) .btn--ghost{background:#fff}
+body:not(.admin-app) .icon-btn{border-radius:6px}
+
+@media (max-width:1100px){
+  body:not(.admin-app){--user-page-x:18px}
+}
