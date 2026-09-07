@@ -1,0 +1,71 @@
+/* 霍桐PDS 用户端 pages 固定视觉基线
+   所有 pages 页面共享，不参与管理端和 index 缩放体系
+*/
+
+.pages-root,
+.pages-root *{
+  box-sizing:border-box;
+}
+
+.pages-root{
+  --pages-font-main:14px;
+  --pages-font-title:16px;
+  --pages-font-meta:12px;
+  --pages-header-height:56px;
+  --pages-sidebar-width:220px;
+  --pages-nav-height:36px;
+  --pages-icon-nav:16px;
+  --pages-icon-file:20px;
+  --pages-row-height:42px;
+}
+
+.pages-root .nav-item{
+  height:36px;
+  font-size:14px;
+  line-height:20px;
+  font-weight:400;
+}
+
+.pages-root .nav-item.active,
+.pages-root .nav-item--on{
+  font-weight:400;
+  color:#2563eb;
+  background:#eef4ff;
+}
+
+.pages-root svg,
+.pages-root img{
+  flex:none;
+}
+
+.pages-root .nav-icon{
+  width:16px;
+  height:16px;
+}
+
+.pages-root .file-icon{
+  width:20px;
+  height:20px;
+}
+
+.pages-root .action-icon{
+  width:14px;
+  height:14px;
+}
+
+.pages-root .read-row,
+.pages-root .tree-row{
+  min-height:42px;
+  font-size:14px;
+  line-height:20px;
+}
+
+.pages-root .search-box{
+  height:34px;
+  font-size:14px;
+}
+
+.pages-root .btn{
+  height:32px;
+  font-size:13px;
+}
