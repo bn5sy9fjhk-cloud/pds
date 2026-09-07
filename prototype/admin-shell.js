@@ -27,15 +27,23 @@ var RKEY = {
 };
 
 /* org.html 是管理中心唯一视觉母版。
-   org 本身不加载覆盖层；其它页面加载 admin-org-baseline.css，只向 org 收口。
-   这样不会反向改变用户已确认的 org 视觉结果。 */
-function loadOrgBaseline(){
-  if (KEY === 'org' || document.querySelector('link[data-org-baseline]')) return;
-  var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = '../admin-org-baseline.css';
-  link.setAttribute('data-org-baseline', 'true');
-  document.head.appendChild(link);
+   org 本身不加载 baseline；其它页面只向 org 收口。
+   admin-refine.css 是管理后台通用交互精修层，主要提供操作按钮与指定页面二次排版。 */
+function loadStyles(){
+  if (KEY !== 'org' && !document.querySelector('link[data-org-baseline]')) {
+    var base = document.createElement('link');
+    base.rel = 'stylesheet';
+    base.href = '../admin-org-baseline.css';
+    base.setAttribute('data-org-baseline', 'true');
+    document.head.appendChild(base);
+  }
+  if (!document.querySelector('link[data-admin-refine]')) {
+    var refine = document.createElement('link');
+    refine.rel = 'stylesheet';
+    refine.href = '../admin-refine.css';
+    refine.setAttribute('data-admin-refine', 'true');
+    document.head.appendChild(refine);
+  }
 }
 
 function nameOf(k){ var t = k; for (var i = 0; i < NAV.length; i++){ for (var j = 0; j < NAV[i].items.length; j++){ if (NAV[i].items[j][0] === k) t = NAV[i].items[j][1]; } } return t; }
@@ -75,7 +83,7 @@ function SC(){
   return (window.UIScale) ? window.UIScale : null;
 }
 function bootCurrent(){
-  loadOrgBaseline();
+  loadStyles();
   buildTopbar();
   buildNav();
   var n = document.querySelectorAll('#mNav .a-nav-item');
