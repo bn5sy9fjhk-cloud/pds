@@ -1,18 +1,65 @@
 /* 霍桐PDS · 用户端公共视觉层
-   index + pages/* 共用。只统一壳、公共控件与文件夹图标，不改业务数据。 */
+   index + pages/* 共用。统一壳、公共控件、文件夹图标与用户端字体基线，不改业务数据。 */
 
-/* ---------- 公共页面骨架 ---------- */
+/* ---------- 用户端固定排版基线 ----------
+   重要：用户端页面切换时字体不得跟随 data-ui-scale 改变。
+   S/M/L 仍可改变控件高度、间距、侧栏宽度等密度，但文字尺寸固定为 Medium 基线。 */
 body:not(.admin-app){
   --user-page-x:24px;
   --user-divider:var(--border,#E3E7EF);
   --user-divider-soft:#EEF1F5;
   --user-head-bg:#FAFBFC;
+
+  --ft-title:16px;
+  --ft-subtitle:15px;
+  --ft-file:14px;
+  --ft-body:14px;
+  --ft-meta:13px;
+  --ft-meta2:12px;
+  --ft-cap:11px;
+  --ft-label:12px;
 }
+/* ui-base.css 的 S/L 选择器与本层同级，为避免页面跳转后继承旧档导致字体变化，明确再次锁定。 */
+body:not(.admin-app)[data-ui-scale="s"],
+body:not(.admin-app)[data-ui-scale="m"],
+body:not(.admin-app)[data-ui-scale="l"]{
+  --ft-title:16px;
+  --ft-subtitle:15px;
+  --ft-file:14px;
+  --ft-body:14px;
+  --ft-meta:13px;
+  --ft-meta2:12px;
+  --ft-cap:11px;
+  --ft-label:12px;
+}
+
+body:not(.admin-app){font-size:14px;line-height:1.5}
+body:not(.admin-app) .brand-name{font-size:16px;line-height:22px;font-weight:600;letter-spacing:0}
+body:not(.admin-app) .user-name,
+body:not(.admin-app) .breadcrumb-marker,
+body:not(.admin-app) .crumb__item{font-size:13px;line-height:20px}
+body:not(.admin-app) .nav-item,
+body:not(.admin-app) .tree-row,
+body:not(.admin-app) .side-sub .tree-row{font-size:14px;line-height:20px}
+body:not(.admin-app) .side-block__label{font-size:12px;line-height:18px}
+body:not(.admin-app) .panel-headline{font-size:14px;line-height:20px}
+body:not(.admin-app) .panel-count{font-size:12px;line-height:18px}
+body:not(.admin-app) .cell-name,
+body:not(.admin-app) .read-name{font-size:14px;line-height:20px}
+body:not(.admin-app) .file-row,
+body:not(.admin-app) .read-row{font-size:13px;line-height:20px}
+body:not(.admin-app) .table-head,
+body:not(.admin-app) .read-head,
+body:not(.admin-app) .read-head>div,
+body:not(.admin-app) .frow-kind-tag,
+body:not(.admin-app) .lk{font-size:12px;line-height:18px}
+body:not(.admin-app) .btn{font-size:13px;line-height:20px}
+
+/* ---------- 公共页面骨架 ---------- */
 body:not(.admin-app) .topbar{
   background:#fff;
   border-bottom:1px solid var(--user-divider);
 }
-body:not(.admin-app) .brand-name{font-weight:600;letter-spacing:0}
 body:not(.admin-app) .sidebar{
   background:#fff;
   border-right:1px solid var(--user-divider);
@@ -74,7 +121,6 @@ body:not(.admin-app) .tree-folder svg{
   stroke:currentColor;
   stroke-width:1.45;
 }
-/* 侧栏部门树图标尺寸稍小，但视觉语言一致 */
 body:not(.admin-app) .tree-row .tree-folder{
   width:22px;height:22px;flex-basis:22px;
 }
