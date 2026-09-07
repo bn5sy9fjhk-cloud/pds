@@ -1,0 +1,222 @@
+/* ================================================================
+   霍桐PDS · 管理中心 org 视觉母版对齐层
+   目标：org.html 保持原样；其余管理页只向 org 的字距、行距、密度、分割和排版语言收口。
+   本文件由 admin-shell.js 在非 org 页面动态加载。
+   ================================================================ */
+
+/* ---- 1. 复用 org 的排版节奏：S / M / L ---- */
+.admin-app:not([data-key="org"]){
+  --fs-title:18px;--fs-title-lh:26px;
+  --fs-desc:13px;--fs-desc-lh:20px;
+  --fs-module:15px;--fs-module-lh:22px;
+  --fs-body:14px;--fs-body-lh:22px;
+  --fs-main:14px;--fs-main-lh:20px;
+  --fs-sub:12px;--fs-sub-lh:18px;
+  --fs-th:12px;--fs-th-lh:18px;
+  --fs-btn:13px;--fs-label:12px;
+  --ctrl-h:34px;--ctrl-h-sm:30px;--ico-h:32px;--ico-h-sm:24px;
+  --row-single:48px;--row-double:56px;--table-head-h2:42px;
+  --tree-row-h:36px;--side-row-h:44px;--toolbar-min-h:52px;
+  --adm-page-x:24px;
+  --org-side-w:232px;
+}
+body[data-ui-scale="s"].admin-app:not([data-key="org"]){
+  --fs-title:16px;--fs-title-lh:24px;--fs-desc:12px;--fs-desc-lh:18px;
+  --fs-module:14px;--fs-module-lh:20px;--fs-body:13px;--fs-body-lh:20px;
+  --fs-main:13px;--fs-main-lh:20px;--fs-sub:12px;--fs-sub-lh:18px;
+  --fs-th:12px;--fs-th-lh:18px;--fs-btn:12px;--fs-label:12px;
+  --ctrl-h:30px;--ctrl-h-sm:28px;--ico-h:28px;--ico-h-sm:22px;
+  --row-single:42px;--row-double:48px;--table-head-h2:38px;
+  --tree-row-h:33px;--side-row-h:40px;--toolbar-min-h:48px;--org-side-w:220px;
+}
+body[data-ui-scale="l"].admin-app:not([data-key="org"]){
+  --fs-title:20px;--fs-title-lh:28px;--fs-desc:14px;--fs-desc-lh:22px;
+  --fs-module:17px;--fs-module-lh:24px;--fs-body:15px;--fs-body-lh:24px;
+  --fs-main:15px;--fs-main-lh:22px;--fs-sub:13px;--fs-sub-lh:20px;
+  --fs-th:13px;--fs-th-lh:20px;--fs-btn:14px;--fs-label:13px;
+  --ctrl-h:38px;--ctrl-h-sm:34px;--ico-h:36px;--ico-h-sm:28px;
+  --row-single:50px;--row-double:60px;--table-head-h2:46px;
+  --tree-row-h:40px;--side-row-h:48px;--toolbar-min-h:58px;--org-side-w:250px;
+}
+
+/* ---- 2. 字距 / 行距：所有后台正文向 org 收口 ---- */
+.admin-app:not([data-key="org"]) :is(h1,h2,h3,h4,p,span,a,button,input,select,textarea,th,td,label,b,strong){letter-spacing:0}
+.admin-app:not([data-key="org"]) .a-nav__label,
+.admin-app:not([data-key="org"]) .dtree-panel>.panel__head .t{letter-spacing:.1px}
+.admin-app:not([data-key="org"]) .admin-page-head h1{font-size:var(--fs-title);line-height:var(--fs-title-lh);font-weight:600}
+.admin-app:not([data-key="org"]) .admin-page-head__desc{font-size:var(--fs-desc);line-height:var(--fs-desc-lh);font-weight:400}
+.admin-app:not([data-key="org"]) .panel__head .t,
+.admin-app:not([data-key="org"]) .form-sec__t{font-size:var(--fs-module);line-height:var(--fs-module-lh);font-weight:600}
+.admin-app:not([data-key="org"]) :is(.u-faint,.x-note,.field-hint,.header-meta,.last-c,.x-nums){font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+
+/* ---- 3. 页面骨架：和 org 一样是一张连续白色工作台 ---- */
+.admin-app:not([data-key="org"]) .a-page{padding:0;background:#fff}
+.admin-app:not([data-key="org"]) .admin-page-head{
+  min-height:0;margin:0;padding:14px var(--adm-page-x);
+  border-bottom:1px solid var(--adm-bd-default);background:#fff;
+}
+.admin-app:not([data-key="org"]) .admin-toolbar{
+  min-height:var(--toolbar-min-h);margin:0;padding:8px var(--adm-page-x);
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);background:#fff;
+}
+.admin-app:not([data-key="org"]) .filters{
+  min-height:var(--toolbar-min-h);margin:0;padding:8px var(--adm-page-x);
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);border-radius:0;background:#fff;
+}
+.admin-app:not([data-key="org"]) :is(.btn,.inp,.sel){font-size:var(--fs-btn)}
+.admin-app:not([data-key="org"]) .admin-toolbar :is(.btn,.inp,.sel),
+.admin-app:not([data-key="org"]) .filters :is(.btn,.inp,.sel){height:var(--ctrl-h)}
+
+/* ---- 4. 所有数据表复用 org 表头、行高、首尾 24px 对齐 ---- */
+.admin-app:not([data-key="org"]) .tbl-scroll,
+.admin-app:not([data-key="org"]) .ovf-wrap{margin:0;min-height:0;background:#fff}
+.admin-app:not([data-key="org"]) .table-x{margin:0;width:100%;border-collapse:separate;border-spacing:0;background:#fff}
+.admin-app:not([data-key="org"]) .table-x th{
+  position:sticky;top:0;z-index:2;height:var(--table-head-h2);
+  padding:0 16px!important;background:var(--adm-head-bg);
+  border:0;border-bottom:1px solid var(--adm-bd-default);
+  font-size:var(--fs-th);line-height:var(--fs-th-lh);font-weight:500;color:var(--text-2);
+  vertical-align:middle;
+}
+.admin-app:not([data-key="org"]) .table-x td{
+  height:var(--row-single);padding:0 16px!important;
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);
+  font-size:var(--fs-main);line-height:var(--fs-main-lh);vertical-align:middle;
+}
+.admin-app:not([data-key="org"]) .table-x th:first-child,
+.admin-app:not([data-key="org"]) .table-x td:first-child{padding-left:var(--adm-page-x)!important}
+.admin-app:not([data-key="org"]) .table-x th:last-child,
+.admin-app:not([data-key="org"]) .table-x td:last-child{padding-right:var(--adm-page-x)!important}
+.admin-app:not([data-key="org"]) .table-x tbody tr:last-child td{border-bottom:0}
+.admin-app:not([data-key="org"]) .table-x tbody tr:hover td{background:var(--adm-head-bg)}
+.admin-app:not([data-key="org"]) .table-x :is(.tb-2line,.member-info,.cell-stack){line-height:normal}
+.admin-app:not([data-key="org"]) .table-x :is(.tb-2line .tl,.member-name,.cell-stack>b){font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500}
+.admin-app:not([data-key="org"]) .table-x :is(.tb-2line .ts,.member-dept,.cell-stack>.u-faint){font-size:var(--fs-sub);line-height:var(--fs-sub-lh);margin-top:1px}
+.admin-app:not([data-key="org"]) .table-x:has(.tb-2line) td,
+.admin-app:not([data-key="org"]) .table-x:has(.member-cell) td,
+.admin-app:not([data-key="org"]) .table-x.double-row td{height:var(--row-double)}
+
+/* ---- 5. panel 不再做悬空卡片，改为 org 的连续分割结构 ---- */
+.admin-app:not([data-key="org"]) .panel{
+  margin:0;background:#fff;border:0;border-radius:0;box-shadow:none;
+}
+.admin-app:not([data-key="org"]) .panel__head{
+  min-height:44px;height:auto;padding:0 var(--adm-page-x);
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);background:#fff;
+}
+.admin-app:not([data-key="org"]) .panel__body{padding:0;background:#fff}
+
+/* ---- 6. 左树右表：宽度、分割线、树密度直接向 org 靠齐 ---- */
+.admin-app:not([data-key="org"]) :is(.org-cols,.perm-cols,.dt-split){
+  display:grid;grid-template-columns:var(--org-side-w) minmax(0,1fr);gap:0;min-height:0;flex:1;background:#fff;
+}
+.admin-app:not([data-key="org"]) :is(.org-cols,.perm-cols,.dt-split)>:first-child{
+  min-width:0;border:0;border-right:1px solid var(--adm-bd-default);border-radius:0;background:#fff;
+}
+.admin-app:not([data-key="org"]) :is(.org-cols,.perm-cols,.dt-split)>:last-child{min-width:0;border:0;border-radius:0;background:#fff}
+.admin-app:not([data-key="org"]) .dtree-panel>.panel__head{
+  min-height:32px;padding:2px var(--adm-page-x) 0;border:0;background:#fff;
+}
+.admin-app:not([data-key="org"]) .dtree-panel>.panel__head .t{font-size:var(--fs-label);line-height:18px;font-weight:500;color:var(--text-2)}
+.admin-app:not([data-key="org"]) .dtree-body{padding:6px}
+.admin-app:not([data-key="org"]) .dt-row{height:var(--tree-row-h);font-size:var(--fs-body);line-height:var(--fs-body-lh)}
+
+/* ---- 7. spaces：保持父子容量业务，但排版改成 org 的“左树 + 右连续表” ---- */
+.admin-app[data-key="spaces"] .scope-head{
+  display:flex;align-items:center;gap:10px;min-height:58px;margin:0;padding:8px var(--adm-page-x);
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);background:#fff;
+}
+.admin-app[data-key="spaces"] .scope-head>.cell-stack{min-width:220px}
+.admin-app[data-key="spaces"] .scope-head>.cell-stack>b{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600}
+.admin-app[data-key="spaces"] .scope-head>.cell-stack>.u-faint{font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="spaces"] .sf-metrics{margin-left:auto;display:flex;align-items:center;gap:18px;min-width:0}
+.admin-app[data-key="spaces"] .cf{padding:0;border:0;background:transparent;gap:6px}
+.admin-app[data-key="spaces"] .cf-tx{gap:1px}
+.admin-app[data-key="spaces"] .sp-nav{
+  min-height:var(--tree-row-h);padding:4px 8px;margin:1px 0;gap:8px;align-items:center;
+  font-size:var(--fs-body);line-height:var(--fs-body-lh);border-radius:var(--radius-s);
+}
+.admin-app[data-key="spaces"] .sp-nav__s{font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="spaces"] .sp-foot{padding:8px 12px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="spaces"] .member-scroll[data-sp="host"]{padding:0}
+.admin-app[data-key="spaces"] .public-line{
+  min-height:var(--row-double);padding:0 var(--adm-page-x);gap:11px;
+  background:#fff;border:0;border-bottom:1px solid var(--adm-bd-subtle);
+}
+.admin-app[data-key="spaces"] .child-zone .pc-head{
+  min-height:var(--table-head-h2);padding:0 var(--adm-page-x);margin:0;
+  border-bottom:1px solid var(--adm-bd-default);background:var(--adm-head-bg);
+}
+.admin-app[data-key="spaces"] .child-zone .pc-head .t{font-size:var(--fs-th);line-height:var(--fs-th-lh);font-weight:500;color:var(--text-2)}
+.admin-app[data-key="spaces"] .child-zone .pc-head .u{font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="spaces"] .pc-bar{gap:4px}
+.admin-app[data-key="spaces"] .pc-bar .dq-bar{height:6px}
+.admin-app[data-key="spaces"] .col-badge{margin-left:10px}
+
+/* ---- 8. perms：去除“卡片编辑器”感，左成员列表与 org 树等宽 ---- */
+.admin-app[data-key="perms"] .perm-cols{grid-template-columns:var(--org-side-w) minmax(0,1fr)}
+.admin-app[data-key="perms"] .pane-tools,
+.admin-app[data-key="perms"] .pe-head,
+.admin-app[data-key="perms"] .pe-presets{
+  margin:0;padding-left:var(--adm-page-x);padding-right:var(--adm-page-x);
+  border-radius:0;background:#fff;border-bottom:1px solid var(--adm-bd-subtle);
+}
+.admin-app[data-key="perms"] .pe-head{min-height:var(--row-double)}
+.admin-app[data-key="perms"] .capability{min-height:var(--row-single);border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="perms"] .perm-group__t{min-height:var(--table-head-h2);background:var(--adm-head-bg);border-bottom:1px solid var(--adm-bd-default)}
+
+/* ---- 9. filegov / quota / audit：收成“页头 → toolbar → sticky table” ---- */
+.admin-app[data-key="filegov"] .tabbar{
+  min-height:44px;margin:0;padding:4px var(--adm-page-x);gap:4px;
+  border-bottom:1px solid var(--adm-bd-subtle);background:#fff;
+}
+.admin-app[data-key="filegov"] .tabbar .tab{height:34px;font-size:var(--fs-btn);line-height:1}
+.admin-app[data-key="filegov"] .data-panel>.panel__head{display:none}
+.admin-app[data-key="filegov"] .data-panel>.panel__body{padding:0}
+.admin-app[data-key="filegov"] .x-note{margin:0;padding:10px var(--adm-page-x);border-top:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="quota"] .q-mod>.panel__head{min-height:44px;padding:0 var(--adm-page-x)}
+.admin-app[data-key="quota"] .qcap{margin:0;padding:8px var(--adm-page-x);border-top:1px solid var(--adm-bd-default);background:var(--adm-head-bg)}
+.admin-app[data-key="audit"] .filters{border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="audit"] .panel>.panel__head{min-height:44px}
+
+/* ---- 10. syscfg：配置页也使用 org 左右连续工作区，不再悬空多卡 ---- */
+.admin-app[data-key="syscfg"] .cfg-layout{
+  display:grid;grid-template-columns:var(--org-side-w) minmax(0,1fr);gap:0;min-height:0;flex:1;background:#fff;
+}
+.admin-app[data-key="syscfg"] .cfg-layout>:first-child{border-right:1px solid var(--adm-bd-default);background:#fff}
+.admin-app[data-key="syscfg"] .cfg-layout>:last-child{background:#fff}
+.admin-app[data-key="syscfg"] .form-sec{margin:0;border:0;border-radius:0;box-shadow:none;background:#fff}
+.admin-app[data-key="syscfg"] .form-sec__t{min-height:44px;padding:0 var(--adm-page-x);border-bottom:1px solid var(--adm-bd-default);background:var(--adm-head-bg)}
+.admin-app[data-key="syscfg"] .form-sec__b{padding:16px var(--adm-page-x);gap:12px 16px}
+.admin-app[data-key="syscfg"] .cfg-aside{width:auto}
+
+/* ---- 11. overview：保留 Dashboard 业务结构，但密度/文字/线条完全归 org ---- */
+.admin-app[data-key="overview"] .num-strip{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;
+  border:0;border-bottom:1px solid var(--adm-bd-default);border-radius:0;background:#fff;
+}
+.admin-app[data-key="overview"] .numstat{min-height:78px;padding:12px var(--adm-page-x);border-right:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="overview"] .numstat:last-child{border-right:0}
+.admin-app[data-key="overview"] .numstat .k{font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="overview"] .numstat .v{margin-top:3px;font-size:var(--fs-main);line-height:var(--fs-main-lh);letter-spacing:0}
+.admin-app[data-key="overview"] .numstat .d{margin-top:2px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="overview"] .cap3{margin:0;padding:10px var(--adm-page-x);border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="overview"] .o-grid{margin:0;gap:0;border-top:0}
+.admin-app[data-key="overview"] .o-col{gap:0}
+.admin-app[data-key="overview"] .o-col:first-child{border-right:1px solid var(--adm-bd-default)}
+.admin-app[data-key="overview"] .panel{border-bottom:1px solid var(--adm-bd-default)}
+.admin-app[data-key="overview"] .panel__head{padding:0 var(--adm-page-x)}
+.admin-app[data-key="overview"] .recent-item{min-height:var(--row-single);padding:6px var(--adm-page-x)}
+
+/* ---- 12. 窄屏：仍优先保证文字可读，不用缩字号 ---- */
+@media (max-width:1120px){
+  .admin-app:not([data-key="org"]) :is(.org-cols,.perm-cols,.dt-split,.cfg-layout){grid-template-columns:210px minmax(0,1fr)}
+  .admin-app[data-key="spaces"] .sf-metrics{gap:10px}
+  .admin-app[data-key="spaces"] .sf-metrics .cf:nth-child(n+4){display:none}
+}
+@media (max-width:900px){
+  .admin-app:not([data-key="org"]) :is(.org-cols,.perm-cols,.dt-split,.cfg-layout){grid-template-columns:190px minmax(0,1fr)}
+  .admin-app[data-key="overview"] .num-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .admin-app[data-key="overview"] .o-grid{grid-template-columns:1fr}
+  .admin-app[data-key="overview"] .o-col:first-child{border-right:0}
+}
