@@ -1,129 +1,122 @@
-/* =====================================================================
-   霍桐PDS · 用户端「只读占位页」共享行为  pages/user-shell.js
-   供 我的文档(my-docs) / 最近使用(recent) / 收藏(starred) / 回收站(trash)
-   四个轻列表页共用；不含编辑能力，仅负责：
-     - 依据 <body data-page="…"> 把各导航项收进可点真实链接
-     - 激活当前导航高亮
-     - 渲染只读行（名称/类型/大小/修改时间/来源）
-     - 回收站显示空态
-   ===================================================================== */
-(function () {
+/* 霍桐PDS · pages 统一公共壳
+   所有 pages/*.html 只保留页面标识，头部、搜索、侧栏、列表和高亮全部由本文件统一生成。
+   不读取 ui-scale，不改变字号与框架尺寸。 */
+(function(){
 'use strict';
+if(typeof document!=='object')return;
 
-var $   = function (id){ return document.getElementById(id); };
+var PAGE=(document.body&&document.body.getAttribute('data-page'))||'my-docs';
+var PAGE_META={
+  'my-docs':{title:'我的文档',file:'my-docs.html'},
+  'recent':{title:'最近使用',file:'recent.html'},
+  'starred':{title:'收藏',file:'starred.html'},
+  'trash':{title:'回收站',file:'trash.html'}
+};
+if(!PAGE_META[PAGE])PAGE='my-docs';
 
-var current = (document.body && document.body.getAttribute('data-page')) || '';
-
-function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
-  .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-function toSize(n){
-  if(n==null||isNaN(n))return '—';
-  if(n>=1024)return (n/1024).toFixed(1)+' GB';
-  if(n>=1)return (Math.round(n*10)/10)+' MB';
-  return Math.round(n*1024)+' KB';
-}
-
-/* 线性图标（读 currentColor） */
-var FDIR  = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.4 2.2 5A1.6 1.6 0 0 1 3.6 3.7h3.2l1.9 1.6h6.8A1.5 1.5 0 0 1 17 6.8v8.6A1.6 1.6 0 0 1 15.4 17H3.6A1.6 1.6 0 0 1 2 15.4V5.4Z"/></svg>';
-var FF     = '<svg width="17" height="20" viewBox="0 0 15 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 1H3.4A1 1 0 0 0 2.4 2v13a1 1 0 0 0 1 1h9.2a1 1 0 0 0 1-1V5.2L8.5 1Z"/><path d="M8.5 1v4.2H13.4"/></svg>';
-var FFOLDER = '<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 5A1.5 1.5 0 0 1 4 3.5h3l2 2H14A1.5 1.5 0 0 1 15.5 7v6A1.5 1.5 0 0 1 14 14.5H4A1.5 1.5 0 0 1 2.5 13Z"/></svg>';
-
-var KIND = { dwg:'DWG', model:'STEP', pdf:'PDF', img:'图片', xlsx:'表格', docx:'文档', file:'文件' };
-
-/* —— 只读占位数据（本轮仅为可用列表，非目录权威；后续接真数据源替换此表） —— */
-var RECENT = [
-  { n:'DWG-001.dwg',  k:'dwg',   s:24.6, t:'2026-09-04 10:21', src:'部门空间/研发部/产品资料/2026' },
-  { n:'规格清单.xlsx', k:'xlsx',  s:0.3,  t:'2026-09-04 09:05', src:'部门空间/研发部/…/零件图库' },
-  { n:'排产计划.pdf',  k:'pdf',   s:2.1,  t:'2026-09-03 18:42', src:'部门空间/生产部' },
-  { n:'设备照片.jpg',  k:'img',   s:6.2,  t:'2026-09-02 16:11', src:'部门空间/研发部/产品资料/2026' },
-  { n:'装配图_A2.dwg', k:'dwg',   s:12.1, t:'2026-09-03 09:10', src:'部门空间/研发部/…/设计图纸' }
-];
-var STARRED = [
-  { n:'霍桐PDS上线通知.pdf', k:'pdf', s:0.7, t:'2026-09-02 17:00', src:'部门空间/管理中心' }
-];
-var MYDOCS = [
-  { f:1, n:'我的项目归档', t:'2026-09-01 09:12', src:'我的个人目录' },
-  { f:1, n:'个人检索库',   t:'2026-08-28 14:30', src:'我的个人目录' },
-  { n:'标注规范.docx', k:'docx', s:0.4, t:'2026-08-27 15:20', src:'我的个人目录' }
-];
-var TRASH = [];   // 空态示范
-
-var METAS = {
-  'my-docs': { rows:MYDOCS, title:'我的文档' },
-  'recent' : { rows:RECENT, title:'最近使用' },
-  'starred': { rows:STARRED,title:'收藏' },
-  'trash'  : { rows:TRASH,  title:'回收站' }
+var DATA={
+  'my-docs':[
+    {folder:true,name:'我的项目归档',time:'2026-09-01 09:12',source:'我的个人目录'},
+    {folder:true,name:'个人检索库',time:'2026-08-28 14:30',source:'我的个人目录'},
+    {name:'标注规范.docx',kind:'docx',size:.4,time:'2026-08-27 15:20',source:'我的个人目录'}
+  ],
+  'recent':[
+    {name:'DWG-001.dwg',kind:'dwg',size:24.6,time:'2026-09-04 10:21',source:'部门空间/研发部/产品资料/2026'},
+    {name:'规格清单.xlsx',kind:'xlsx',size:.3,time:'2026-09-04 09:05',source:'部门空间/研发部/零件图库'},
+    {name:'排产计划.pdf',kind:'pdf',size:2.1,time:'2026-09-03 18:42',source:'部门空间/生产部'},
+    {name:'设备照片.jpg',kind:'img',size:6.2,time:'2026-09-02 16:11',source:'部门空间/研发部/产品资料/2026'},
+    {name:'装配图_A2.dwg',kind:'dwg',size:12.1,time:'2026-09-03 09:10',source:'部门空间/研发部/设计图纸'}
+  ],
+  'starred':[
+    {name:'霍桐PDS上线通知.pdf',kind:'pdf',size:.7,time:'2026-09-02 17:00',source:'部门空间/管理中心'}
+  ],
+  'trash':[]
 };
 
-function kindText(it){
-  if(it.f)return '文件夹';
-  return it.k? (KIND[it.k]||'文件') : '文件';
-}
-function rowHTML(it){
-  var isFolder=!!it.f;
-  var k=isFolder?'folder':(it.k?it.k:'file');
-  return ''+
-    '<div class="read-row">'+
-      '<span class="read-name'+(isFolder?' is-folder':'')+'">'+
-        '<span class="read-ico">'+(isFolder?FFOLDER:FF)+'</span>'+
-        '<span class="txt">'+esc(it.n)+'</span></span>'+
-      '<span><span class="lk lk-'+k+'">'+kindText(it)+'</span></span>'+
-      '<span class="read-size">'+(isFolder?'—':toSize(it.s))+'</span>'+
-      '<span class="read-time">'+esc(it.t||'—')+'</span>'+
-      '<span class="read-src">'+esc(it.src||'—')+'</span>'+
-    '</div>';
+var ICON={
+  brand:'<svg viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="15" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+  search:'<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M12.4 12.4 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  admin:'<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2.5l5 2v4.2c0 3-2 5-5 5.3-3-.3-5-2.3-5-5.3V4.5l5-2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 8.2l1.4 1.4L10 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  my:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.6 3.2 5A1.7 1.7 0 0 1 4.8 3.6h2.8l1.9 1.7h5.7A1.4 1.4 0 0 1 16.6 6.7v9.4A1.3 1.3 0 0 1 15.3 17.4H4.7A1.3 1.3 0 0 1 3.4 16L3 5.6Z"/><path d="M6 13l2.5-2L10.5 13l3-3.4" stroke-linecap="round"/></svg>',
+  dept:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 5.5A1.5 1.5 0 0 1 4 4h3l2 2h7A1.5 1.5 0 0 1 17.5 7.5v7A1.5 1.5 0 0 1 16 16H4A1.5 1.5 0 0 1 2.5 14.5Z"/></svg>',
+  recent:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M10 7v3l2 1.5" stroke-linecap="round"/></svg>',
+  star:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="m10 3.6 1.9 3.9 4.3.6-3.1 3 .7 4.3L10 13.6l-3.8 2 .7-4.3-3.1-3 4.3-.6L10 3.6Z"/></svg>',
+  trash:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h12M8 3.5h4M6 6l.6 9A1.5 1.5 0 0 0 8.1 16.5h3.8a1.5 1.5 0 0 0 1.5-1.4L14 6"/><path d="M8.5 9v4.5M11.5 9v4.5"/></svg>',
+  folder:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 5A1.5 1.5 0 0 1 4 3.5h3l2 2H14A1.5 1.5 0 0 1 15.5 7v6A1.5 1.5 0 0 1 14 14.5H4A1.5 1.5 0 0 1 2.5 13Z"/></svg>',
+  file:'<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M10 2H5A1.2 1.2 0 0 0 3.8 3.2v11.6A1.2 1.2 0 0 0 5 16h8a1.2 1.2 0 0 0 1.2-1.2V6.2L10 2Z"/><path d="M10 2v4.2h4.2"/></svg>',
+  empty:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M9 16h12l4 4h14v18H9V16Z" stroke-linejoin="round"/><path d="M16 29h16" stroke-linecap="round"/></svg>'
+};
+
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function size(v){if(v==null)return '—';if(v>=1024)return (v/1024).toFixed(1)+' GB';if(v>=1)return (Math.round(v*10)/10)+' MB';return Math.round(v*1024)+' KB'}
+function kindLabel(row){if(row.folder)return '文件夹';return {dwg:'DWG',xlsx:'表格',pdf:'PDF',img:'图片',docx:'文档'}[row.kind]||'文件'}
+function navItem(key,title,icon,href){return '<a class="pages-nav-item'+(PAGE===key?' is-current':'')+'" href="'+href+'"'+(PAGE===key?' aria-current="page"':'')+'><span class="pages-nav-icon">'+icon+'</span><span>'+title+'</span></a>'}
+function deptRow(name){return '<li><a class="pages-dept-row" href="../index.html?dept='+encodeURIComponent(name)+'"><span class="pages-dept-icon">'+ICON.folder+'</span><span>'+name+'</span></a></li>'}
+
+function shell(){
+  var meta=PAGE_META[PAGE];
+  return '<div class="pages-app">'+
+    '<header class="pages-topbar">'+
+      '<div class="pages-topbar-left"><span class="pages-brand-mark">'+ICON.brand+'</span><span class="pages-brand-name">霍桐PDS</span><span class="pages-brand-sep"></span><span class="pages-breadcrumb">'+meta.title+'</span></div>'+
+      '<div class="pages-search-wrap"><label class="pages-search">'+ICON.search+'<input id="pagesSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="搜索文件、文件夹、图纸……" aria-label="搜索当前页面"><span class="pages-search-key">Ctrl K</span></label></div>'+
+      '<div class="pages-topbar-right"><a class="pages-admin-entry" href="../admin/overview.html">'+ICON.admin+'<span>管理中心</span></a><span class="pages-user"><span class="pages-avatar">张</span><span>张研</span></span></div>'+
+    '</header>'+
+    '<div class="pages-layout">'+
+      '<aside class="pages-sidebar">'+
+        '<nav class="pages-side-nav" aria-label="主导航">'+
+          navItem('my-docs','我的文档',ICON.my,'my-docs.html')+
+          navItem('dept','部门空间',ICON.dept,'../index.html')+
+          navItem('recent','最近使用',ICON.recent,'recent.html')+
+          navItem('starred','收藏',ICON.star,'starred.html')+
+          navItem('trash','回收站',ICON.trash,'trash.html')+
+        '</nav>'+
+        '<section class="pages-side-block"><p class="pages-side-label">部门空间</p><ul class="pages-dept-list">'+deptRow('研发部')+deptRow('生产部')+deptRow('销售部')+'</ul></section>'+
+        '<div class="pages-side-footer"><p class="pages-side-label">空间使用情况</p><div class="pages-capacity-label"><span>已用 128.4 GB</span><span>500 GB</span></div><div class="pages-capacity-track"><i class="pages-capacity-fill"></i></div></div>'+
+      '</aside>'+
+      '<main class="pages-main"><div class="pages-main-toolbar"><span class="pages-main-title">'+meta.title+'</span><span class="pages-main-count" id="pagesListCount">0 项</span></div><section class="pages-file-panel"><div class="pages-grid pages-head"><div>名称</div><div>类型</div><div>大小</div><div>修改时间</div><div>来源</div></div><div class="pages-list-scroll"><div class="pages-list" id="pagesList"></div></div></section></main>'+
+    '</div>'+
+  '</div>';
 }
 
-function setActiveNav(){
-  var node=document.querySelector('.nav-item[data-nav="'+current+'"]');
-  if(!node)return;
-  var all=document.querySelectorAll('.nav-item');
-  for(var i=0;i<all.length;i++)all[i].classList.remove('nav-item--on');
-  node.classList.add('nav-item--on');
+function rowHTML(row){
+  var folder=!!row.folder,kind=folder?'folder':(row.kind||'file');
+  return '<div class="pages-row" data-search="'+esc([row.name,kindLabel(row),row.time,row.source].join(' ').toLowerCase())+'">'+
+    '<div class="pages-name"><span class="pages-file-icon'+(folder?' folder':'')+'">'+(folder?ICON.folder:ICON.file)+'</span><span>'+esc(row.name)+'</span></div>'+
+    '<div><span class="pages-tag '+esc(kind)+'">'+kindLabel(row)+'</span></div>'+
+    '<div class="pages-size">'+(folder?'—':size(row.size))+'</div>'+
+    '<div class="pages-time">'+esc(row.time||'—')+'</div>'+
+    '<div class="pages-source">'+esc(row.source||'—')+'</div>'+
+  '</div>';
 }
-function emptyHTML(){
-  var txt = '回收站是空的';
-  var sub = '被删除的文件会保留在这里，直到清空回收站';
-  return '<div class="read-empty">'+
-      '<img class="empty-art" src="../meyougengduo.png" alt="" loading="lazy"/>'+
-      '<div class="empty-txt">'+txt+'</div>'+
-      '<div class="empty-sub">'+sub+'</div>'+
-    '</div>';
+
+function renderRows(filter){
+  var host=document.getElementById('pagesList');
+  var cnt=document.getElementById('pagesListCount');
+  if(!host||!cnt)return;
+  var q=String(filter||'').trim().toLowerCase();
+  var rows=DATA[PAGE]||[];
+  if(!rows.length){host.innerHTML='<div class="pages-empty">'+ICON.empty+'<div class="pages-empty-title">回收站是空的</div><div class="pages-empty-sub">被删除的文件会保留在这里，直到清空回收站</div></div>';cnt.textContent='0 项';return}
+  var out=[],visible=0;
+  rows.forEach(function(row){var hay=[row.name,kindLabel(row),row.time,row.source].join(' ').toLowerCase();if(!q||hay.indexOf(q)!==-1){out.push(rowHTML(row));visible++}});
+  if(!visible&&q){host.innerHTML='<div class="pages-empty">'+ICON.search+'<div class="pages-empty-title">没有找到匹配内容</div><div class="pages-empty-sub">请尝试其他关键词</div></div>'}else{host.innerHTML=out.join('')}
+  cnt.textContent=visible+' 项';
 }
-function buildList(){
-  var wrap=$('listBody'); if(!wrap)return;
-  var meta=METAS[current]||{rows:[]};
-  var t=$('listTitle')||$('listTitle2'); if(t)t.textContent=meta.title||'';
-  var cnt=$('listCount'); if(cnt)cnt.textContent=meta.rows.length+' 项';
-  var src='';
-  if(!meta.rows.length){ src=emptyHTML(); }
-  else{ for(var i=0;i<meta.rows.length;i++) src+=rowHTML(meta.rows[i]); }
-  wrap.innerHTML=src;
-}
-function bindNavHrefs(){
-  /* 站内真实链接：若 HTML 保留 `data-nav` 但 URL 需多页跳转，由这里统一补 href。
-     命名与 <a> 上的 data-href-key 对应避免误改根部门条目。 */
-  document.querySelectorAll('a[data-href-key]').forEach(function(a){
-    var key=a.getAttribute('data-href-key');
-    if(!key||!current)return;
-    var urls={
-      dept:'../index.html', 'my-docs':'my-docs.html', recent:'recent.html',
-      starred:'starred.html', trash:'trash.html'
-    };
-    var href=urls[key];
-    /* 当前页所在目录内部与部门空间都不同级，统一处理相对基准 */
-    if(key==='dept') href='../index.html';
-    if(href)a.setAttribute('href',href);
+
+function bindSearch(){
+  var input=document.getElementById('pagesSearchInput');if(!input)return;
+  input.addEventListener('input',function(){renderRows(input.value)});
+  document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();input.focus();input.select()}
+    if(e.key==='Escape'&&document.activeElement===input){input.value='';renderRows('');input.blur()}
   });
 }
+
 function boot(){
-  var capText=$('idCapUsed'); if(capText)capText.textContent='已用 128.4 GB';
-  var capTotal=$('idCapTotal'); if(capTotal)capTotal.textContent='500 GB';
-  bindNavHrefs();
-  setActiveNav();
-  buildList();
+  var app=document.getElementById('pagesApp');if(!app)return;
+  app.innerHTML=shell();
+  document.title='霍桐PDS · '+PAGE_META[PAGE].title;
+  renderRows('');
+  bindSearch();
 }
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',boot);
-}else{boot();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
