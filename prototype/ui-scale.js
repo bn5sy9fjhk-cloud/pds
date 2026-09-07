@@ -1,12 +1,8 @@
 /* =====================================================================
    霍桐PDS · UI Density 共享模块  ui-scale.js
    —— 用户端(index + pages) 与管理端(admin/*.html) 共用。
-   职责：只负责读/写/持久 localStorage('htpds.scale')，
-         并把当前档设置到 <body data-ui-scale="s|m|l">，
-         再高亮对应「大/中/小」按钮。
-   ★ 真正的视觉尺寸完全由 ui-base.css 里的三档 Display Size Token 决定，
-     JS 不再设置 body.style.zoom，也不再直接改任何字号/px。
-   按钮约定：user 用 data-sc / admin 用 data-mgrsc（共用 .mt-scale-btn 视觉）。
+   职责：读/写 localStorage('htpds.scale') 并应用 S/M/L；
+   用户端同时从本共享入口加载 user-public.css / user-public.js，确保公共页面视觉一致。
    ===================================================================== */
 (function () {
 'use strict';
@@ -16,8 +12,6 @@ var KEY  = 'htpds.scale';
 var VALID = { s: true, m: true, l: true };
 
 function normalize(k){ return VALID[k] ? k : 'm'; }
-
-/* 读取当前档（默认 Medium，校验落在 s/m/l） */
 function readScale(){
   var v = 'm';
   try {
@@ -25,16 +19,14 @@ function readScale(){
       var s = window.localStorage.getItem(KEY);
       if (VALID[s]) v = s;
     }
-  } catch (e) { /* ignore */ }
+  } catch (e) {}
   return v;
 }
-/* 保存用户选择（与两端共用同一键，不改名、不改值域） */
 function saveScale(k){
   k = normalize(k);
   try { if (window.localStorage) window.localStorage.setItem(KEY, k); } catch (e) {}
   return k;
 }
-/* 真正落档：body[data-ui-scale]+按钮高亮 */
 function paint(k){
   k = normalize(k);
   var all = document.querySelectorAll('.mt-scale-btn[data-sc], .mt-scale-btn[data-mgrsc]');
@@ -51,13 +43,11 @@ function applyScale(k){
   paint(k);
   return k;
 }
-/* 切换并存档 */
 function setScale(k, persist){
   k = normalize(k);
   if (persist) saveScale(k);
   return applyScale(k);
 }
-/* 事件委托：一端点按任一 scale 按钮即全表高亮 + 落档 */
 function bind(){
   document.addEventListener('click', function (ev) {
     var t = ev.target;
@@ -69,8 +59,33 @@ function bind(){
     if (VALID[v]) setScale(v, true);
   });
 }
-/* 可选：进入页面时依据存储档应用（不发 click，避免重复存） */
+
+/* 用户端公共视觉入口。
+   通过 ui-scale.js 自身 URL 解析资源，因此 index.html 与 pages/*.html 都无需复制路径判断。 */
+function loadUserPublic(){
+  if (document.body.classList.contains('admin-app')) return;
+  var src = (document.currentScript && document.currentScript.src) || '';
+  if (!src) {
+    var ss=document.getElementsByTagName('script');
+    for(var i=ss.length-1;i>=0;i--){ if(/ui-scale\.js(?:\?|$)/.test(ss[i].src||'')){src=ss[i].src;break;} }
+  }
+  if(!src)return;
+  var cssUrl,jsUrl;
+  try{cssUrl=new URL('user-public.css',src).href;jsUrl=new URL('user-public.js',src).href;}catch(e){return;}
+  if(!document.querySelector('link[data-user-public]')){
+    var link=document.createElement('link');
+    link.rel='stylesheet';link.href=cssUrl;link.setAttribute('data-user-public','true');
+    document.head.appendChild(link);
+  }
+  if(!document.querySelector('script[data-user-public]')){
+    var js=document.createElement('script');
+    js.src=jsUrl;js.defer=true;js.setAttribute('data-user-public','true');
+    document.head.appendChild(js);
+  }
+}
+
 function init(){
+  loadUserPublic();
   applyScale(readScale());
   bind();
 }
