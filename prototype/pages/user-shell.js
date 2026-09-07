@@ -38,7 +38,6 @@ var ICON={
   search:'<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M12.4 12.4 16 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   admin:'<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2.5l5 2v4.2c0 3-2 5-5 5.3-3-.3-5-2.3-5-5.3V4.5l5-2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 8.2l1.4 1.4L10 6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   my:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.6 3.2 5A1.7 1.7 0 0 1 4.8 3.6h2.8l1.9 1.7h5.7A1.4 1.4 0 0 1 16.6 6.7v9.4A1.3 1.3 0 0 1 15.3 17.4H4.7A1.3 1.3 0 0 1 3.4 16L3 5.6Z"/><path d="M6 13l2.5-2L10.5 13l3-3.4" stroke-linecap="round"/></svg>',
-  dept:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 5.5A1.5 1.5 0 0 1 4 4h3l2 2h7A1.5 1.5 0 0 1 17.5 7.5v7A1.5 1.5 0 0 1 16 16H4A1.5 1.5 0 0 1 2.5 14.5Z"/></svg>',
   recent:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M10 7v3l2 1.5" stroke-linecap="round"/></svg>',
   star:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="m10 3.6 1.9 3.9 4.3.6-3.1 3 .7 4.3L10 13.6l-3.8 2 .7-4.3-3.1-3 4.3-.6L10 3.6Z"/></svg>',
   trash:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h12M8 3.5h4M6 6l.6 9A1.5 1.5 0 0 0 8.1 16.5h3.8a1.5 1.5 0 0 0 1.5-1.4L14 6"/><path d="M8.5 9v4.5M11.5 9v4.5"/></svg>',
@@ -65,7 +64,6 @@ function shell(){
       '<aside class="pages-sidebar">'+
         '<nav class="pages-side-nav" aria-label="主导航">'+
           navItem('my-docs','我的文档',ICON.my,'my-docs.html')+
-          navItem('dept','部门空间',ICON.dept,'../index.html')+
           navItem('recent','最近使用',ICON.recent,'recent.html')+
           navItem('starred','收藏',ICON.star,'starred.html')+
           navItem('trash','回收站',ICON.trash,'trash.html')+
