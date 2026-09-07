@@ -1,5 +1,5 @@
-/* 霍桐PDS · 系统配置 V2 页面增强
-   不改现有配置数据与保存逻辑，只调整展示文案与信息层级。 */
+/* 霍桐PDS · 系统配置 V3 页面增强
+   不改配置数据与保存逻辑；移除右侧栏依赖，把辅助操作收进顶部工具栏。 */
 (function(){
 'use strict';
 if(typeof window==='undefined')return;
@@ -19,12 +19,21 @@ function refine(){
   if(last)last.textContent=last.textContent.replace('上次保存：','最近保存：');
   var save=page.querySelector('#saveAll');
   if(save)save.textContent='保存配置';
-  var asideTitle=page.querySelector('.cfg-aside .panel__head .t');
-  if(asideTitle)asideTitle.textContent='最近修改';
+
+  /* 把原右侧栏的两个辅助操作移到顶部，避免右栏遮挡主内容。 */
+  var toolbarRight=page.querySelector('.admin-toolbar .toolbar-right');
   var env=page.querySelector('#envBtn');
-  if(env)env.textContent='导出配置样例';
   var json=page.querySelector('#jsonBtn');
-  if(json)json.textContent='查看配置快照';
+  if(toolbarRight&&(env||json)){
+    var tools=document.createElement('span');
+    tools.className='syscfg-tools';
+    if(env){env.textContent='导出配置样例';tools.appendChild(env);}
+    if(json){json.textContent='查看配置快照';tools.appendChild(json);}
+    toolbarRight.insertBefore(tools,save||null);
+  }
+  var aside=page.querySelector('.cfg-aside');
+  if(aside)aside.remove();
+
   var test=page.querySelector('#testConn');
   if(test)test.textContent='检测连接';
   var map={
@@ -48,16 +57,14 @@ function refine(){
   [].forEach.call(page.querySelectorAll('.field-label'),function(n){
     n.textContent=n.textContent
       .replace('地域','存储地域')
-      .replace('服务地址','服务地址')
-      .replace('分片大小','分片大小')
-      .replace('并发数','上传并发')
+      .replace('分片并发','上传并发')
       .replace('分片保留天数','分片保留时间')
       .replace('直传域名','直传地址')
       .replace('保留天数','文件保留时间')
-      .replace('容量告警阈值','容量提醒阈值')
-      .replace('心跳超时','服务心跳超时')
-      .replace('转换并发','转换并发档')
-      .replace('输出目录','输出目录');
+      .replace('占用告警阈值(GB)','容量提醒阈值')
+      .replace('心跳超时(秒)','服务心跳超时')
+      .replace('转换并发档','转换并发')
+      .replace('产物目录','输出目录');
   });
 }
 Routes.syscfg=function(){
