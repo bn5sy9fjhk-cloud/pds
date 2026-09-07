@@ -6,6 +6,43 @@
    本文件不属于 index.html（部门空间富交互页走其原 style.css 系列）。
    ===================================================================== */
 
+/* =====================================================================
+   pages 固定排版基线
+   说明：pages/*.html 没有独立的 S/M/L 切换器，但会继承 ui-scale.js 保存的档位，
+   之前会导致用户从 index / admin 切换档位后，再进入 pages 页面时字体忽大忽小。
+   这里把 pages 的文字层级固定在 Medium 基线；只固定字体，不改业务与页面结构。
+   ===================================================================== */
+body[data-page]{
+  --ft-title:16px;
+  --ft-subtitle:15px;
+  --ft-file:14px;
+  --ft-body:14px;
+  --ft-meta:13px;
+  --ft-meta2:12px;
+  --ft-cap:11px;
+  --ft-label:12px;
+  font-size:14px;
+  line-height:1.5;
+}
+body[data-page] .brand-name{font-size:16px;line-height:22px;font-weight:600}
+body[data-page] .breadcrumb-marker{font-size:13px;line-height:20px}
+body[data-page] .user-name{font-size:13px;line-height:20px}
+body[data-page] .nav-item,
+body[data-page] .side-sub .tree-row{font-size:14px;line-height:20px}
+body[data-page] .side-block__label{font-size:12px;line-height:18px}
+body[data-page] .capacity-label{font-size:12px;line-height:18px}
+body[data-page] .panel-headline{font-size:14px;line-height:22px}
+body[data-page] .panel-headline small{font-size:12px;line-height:18px}
+body[data-page] .panel-count{font-size:12px;line-height:18px}
+body[data-page] .read-head>div{font-size:12px;line-height:18px}
+body[data-page] .read-row{font-size:13px;line-height:20px}
+body[data-page] .read-name{font-size:14px;line-height:20px}
+body[data-page] .lk{font-size:12px;line-height:18px}
+body[data-page] .read-empty .empty-txt{font-size:14px;line-height:22px}
+body[data-page] .read-empty .empty-sub{font-size:12px;line-height:18px}
+body[data-page] .btn{font-size:13px;line-height:20px}
+body[data-page] .mt-scale-btn{font-size:12px;line-height:18px}
+
 /* —— 版面骨架（沿用文件工作台同高语境） —— */
 html,body{height:100%}
 body{
