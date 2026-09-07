@@ -1,76 +1,135 @@
-/* 霍桐PDS · 空间成员权限 V2
-   目标：减少纵向层级，形成“成员列表 + 权限工作区”的双栏连续布局。 */
+/* 霍桐PDS · 空间成员权限 V3
+   目标：减少层级和视觉噪声；延续 org 的字距、行距、字号与白色连续工作台。 */
+
 .admin-app[data-key="perms"] .admin-page-head__meta{display:none}
 .admin-app[data-key="perms"] .admin-page-head{padding-top:12px;padding-bottom:12px}
-.admin-app[data-key="perms"] .admin-toolbar{min-height:48px;padding-top:6px;padding-bottom:6px;border-bottom:1px solid var(--adm-bd-default)}
-.admin-app[data-key="perms"] .admin-toolbar .fl{font-size:var(--fs-sub);color:var(--text-3)}
+.admin-app[data-key="perms"] .admin-toolbar{
+  min-height:48px;padding:6px var(--adm-page-x);border-bottom:1px solid var(--adm-bd-default)
+}
+.admin-app[data-key="perms"] .admin-toolbar .fl{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
 .admin-app[data-key="perms"] .admin-toolbar .sel{width:280px!important}
-.admin-app[data-key="perms"] .perm-cols{grid-template-columns:288px minmax(0,1fr);gap:0;min-height:0;flex:1;background:#fff}
-.admin-app[data-key="perms"] .perm-cols>div:first-child{border-right:1px solid var(--adm-bd-default);overflow:hidden}
-.admin-app[data-key="perms"] .dtree-panel>.panel__head{min-height:38px;padding:0 14px;border-bottom:1px solid var(--adm-bd-subtle);display:flex;align-items:center}
-.admin-app[data-key="perms"] .dtree-panel>.panel__head .t{font-size:var(--fs-label);font-weight:500;color:var(--text-2)}
-.admin-app[data-key="perms"] .dtree-panel>.panel__head .u{margin-left:auto;font-size:var(--fs-sub);color:var(--text-3)}
+
+/* 主体只保留两栏：左成员、右权限 */
+.admin-app[data-key="perms"] .perm-cols{
+  display:grid;grid-template-columns:236px minmax(0,1fr);gap:0;min-height:0;flex:1;background:#fff
+}
+.admin-app[data-key="perms"] .perm-cols>div:first-child{
+  min-width:0;border-right:1px solid var(--adm-bd-default);overflow:hidden;background:#fff
+}
+.admin-app[data-key="perms"] .dtree-panel>.panel__head{
+  min-height:36px;padding:0 12px;border-bottom:1px solid var(--adm-bd-subtle);display:flex;align-items:center;background:#fff
+}
+.admin-app[data-key="perms"] .dtree-panel>.panel__head .t{
+  font-size:var(--fs-label);line-height:18px;font-weight:500;color:var(--text-2)
+}
+.admin-app[data-key="perms"] .dtree-panel>.panel__head .u{
+  margin-left:auto;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)
+}
 .admin-app[data-key="perms"] .perm-list-holder{display:flex;flex-direction:column;height:100%;min-height:0;background:#fff}
-.admin-app[data-key="perms"] .ofilter{padding:8px 10px;border-bottom:1px solid var(--adm-bd-subtle)}
+.admin-app[data-key="perms"] .ofilter{padding:8px 8px;border-bottom:1px solid var(--adm-bd-subtle)}
 .admin-app[data-key="perms"] .ofilter .kw-wrap,.admin-app[data-key="perms"] .ofilter .kw-wrap .inp{width:100%}
 .admin-app[data-key="perms"] .ofilter .kw-wrap .inp{height:32px}
-.admin-app[data-key="perms"] .perm-who{flex:1;min-height:0;overflow:auto;padding:4px 6px 10px}
-.admin-app[data-key="perms"] .mem-item{width:100%;min-height:54px;margin:1px 0;padding:7px 8px;display:flex;align-items:center;gap:10px;text-align:left;border-radius:6px;background:#fff}
+.admin-app[data-key="perms"] .perm-who{flex:1;min-height:0;overflow:auto;padding:4px}
+.admin-app[data-key="perms"] .mem-item{
+  width:100%;min-height:48px;margin:1px 0;padding:6px 8px;display:flex;align-items:center;gap:9px;text-align:left;
+  border:0;border-radius:6px;background:#fff
+}
 .admin-app[data-key="perms"] .mem-item:hover{background:var(--adm-head-bg)}
 .admin-app[data-key="perms"] .mem-item--on{background:var(--nav-on);color:var(--primary)}
-.admin-app[data-key="perms"] .mem-item .mem-avatar{width:30px;height:30px}
-.admin-app[data-key="perms"] .mem-body{display:flex;flex-direction:column;min-width:0;gap:2px}
-.admin-app[data-key="perms"] .mem-body .mn{display:flex;align-items:center;gap:6px;min-width:0;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text)}
-.admin-app[data-key="perms"] .mem-body .ms{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-app[data-key="perms"] .mem-item .mem-avatar{width:28px;height:28px}
+.admin-app[data-key="perms"] .mem-body{display:flex;flex-direction:column;min-width:0;gap:1px}
+.admin-app[data-key="perms"] .mem-body .mn{
+  display:flex;align-items:center;gap:5px;min-width:0;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text)
+}
+.admin-app[data-key="perms"] .mem-body .ms{
+  font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
 .admin-app[data-key="perms"] .mem-body .tag{height:18px;padding:0 6px;font-size:11px}
 
-/* 右侧不再叠卡片：成员摘要 + 快捷预设 + 权限矩阵 + 保存条 */
+/* 右侧：成员摘要和快捷权限合为一行，不再分成多个条带 */
 .admin-app[data-key="perms"] .perm-editor{display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#fff}
 .admin-app[data-key="perms"] .ped-head{flex:none;background:#fff;border-bottom:1px solid var(--adm-bd-default)}
-.admin-app[data-key="perms"] .pe-head{min-height:62px;padding:8px 24px;border:0;display:flex;align-items:center;gap:10px}
-.admin-app[data-key="perms"] .pe-head .mem-avatar{width:34px;height:34px}
-.admin-app[data-key="perms"] .pe-id{min-width:0;flex:1}
-.admin-app[data-key="perms"] .pe-name{display:flex;align-items:center;gap:7px;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600;color:var(--text)}
-.admin-app[data-key="perms"] .pe-id>.u-faint{margin-top:2px}
-.admin-app[data-key="perms"] .pe-scope{margin-left:auto;max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.admin-app[data-key="perms"] .pe-presets{min-height:42px;padding:6px 24px;border-top:1px solid var(--adm-bd-subtle);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.admin-app[data-key="perms"] .pe-presets .lbl{margin-right:4px;font-size:var(--fs-label);color:var(--text-3)}
-.admin-app[data-key="perms"] .preset{height:28px;padding:0 10px;border:1px solid var(--adm-bd-default);border-radius:6px;background:#fff;color:var(--text-2);font-size:12px;line-height:1;cursor:pointer}
+.admin-app[data-key="perms"] .pe-head{
+  min-height:58px;padding:8px 24px;border:0;display:flex;align-items:center;gap:10px;flex-wrap:nowrap
+}
+.admin-app[data-key="perms"] .pe-head .mem-avatar{width:32px;height:32px;flex:none}
+.admin-app[data-key="perms"] .pe-id{min-width:150px;flex:0 1 auto}
+.admin-app[data-key="perms"] .pe-name{
+  display:flex;align-items:center;gap:6px;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600;color:var(--text)
+}
+.admin-app[data-key="perms"] .pe-id>.u-faint{margin-top:1px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="perms"] .pe-scope{
+  margin-left:12px;padding-left:14px;border-left:1px solid var(--adm-bd-subtle);max-width:240px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)
+}
+.admin-app[data-key="perms"] .pe-presets{
+  margin-left:auto;min-height:0;padding:0;border:0;background:transparent;display:flex;align-items:center;gap:6px;flex-wrap:nowrap
+}
+.admin-app[data-key="perms"] .pe-presets .lbl{
+  margin-right:2px;font-size:var(--fs-label);line-height:18px;color:var(--text-3);white-space:nowrap
+}
+.admin-app[data-key="perms"] .preset{
+  height:28px;padding:0 9px;border:1px solid var(--adm-bd-default);border-radius:6px;background:#fff;color:var(--text-2);
+  font-size:12px;line-height:1;white-space:nowrap;cursor:pointer
+}
 .admin-app[data-key="perms"] .preset:hover{background:var(--adm-head-bg);border-color:var(--adm-bd-strong);color:var(--text)}
 
+/* 权限本体：单列连续数据行，取消矩阵、卡片、额外标题层 */
 .admin-app[data-key="perms"] .ped-body{flex:1;min-height:0;overflow:auto;background:#fff}
-.admin-app[data-key="perms"] .ped-readonly{margin:0;padding:8px 24px;border:0;border-bottom:1px solid var(--adm-bd-subtle)}
-.admin-app[data-key="perms"] .perm-group__t{height:38px;padding:0 24px;display:flex;align-items:center;background:var(--adm-head-bg);border-bottom:1px solid var(--adm-bd-default);font-size:var(--fs-th);line-height:var(--fs-th-lh);font-weight:500;color:var(--text-2)}
-.admin-app[data-key="perms"] .perm-cap-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:#fff}
-.admin-app[data-key="perms"] .perm-cap-grid .capability{min-height:64px;padding:10px 18px 10px 24px;display:flex;align-items:center;gap:12px;border:0;border-bottom:1px solid var(--adm-bd-subtle);background:#fff}
-.admin-app[data-key="perms"] .perm-cap-grid .capability:nth-child(odd){border-right:1px solid var(--adm-bd-subtle)}
-.admin-app[data-key="perms"] .perm-cap-grid .capability:hover{background:var(--adm-head-bg)}
-.admin-app[data-key="perms"] .cap-left{min-width:0;flex:1}
-.admin-app[data-key="perms"] .cap-title{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text)}
-.admin-app[data-key="perms"] .cap-title .u-faint{margin:0;font-weight:400}
-.admin-app[data-key="perms"] .cap-check{margin-left:auto;display:flex;align-items:center;gap:8px;flex:none}
-.admin-app[data-key="perms"] .cap-note,.admin-app[data-key="perms"] .locked-tip{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
-.admin-app[data-key="perms"] .t-locked{margin-left:auto;flex:none}
-
-/* owner / 管理能力放到底部，弱化为独立治理区 */
-.admin-app[data-key="perms"] .pd-danger{margin:16px 24px 18px;border:1px solid var(--adm-bd-default);border-radius:8px;background:#fff}
-.admin-app[data-key="perms"] .pd-row{padding:14px 16px;display:flex;align-items:center;gap:18px}
-.admin-app[data-key="perms"] .pd-t{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600;color:var(--text)}
-.admin-app[data-key="perms"] .pd-copy{margin-top:3px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
-.admin-app[data-key="perms"] .pd-ops{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-
-.admin-app[data-key="perms"] .ped-foot{position:sticky;bottom:0;z-index:4;flex:none;min-height:54px;padding:8px 24px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--adm-bd-default);background:#fff}
-.admin-app[data-key="perms"] .ped-foot .spacer{flex:1}
-.admin-app[data-key="perms"] .pe-save-note{max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-@media (max-width:1280px){
-  .admin-app[data-key="perms"] .perm-cols{grid-template-columns:250px minmax(0,1fr)}
-  .admin-app[data-key="perms"] .perm-cap-grid{grid-template-columns:1fr}
-  .admin-app[data-key="perms"] .perm-cap-grid .capability:nth-child(odd){border-right:0}
-  .admin-app[data-key="perms"] .pe-scope{max-width:32%}
+.admin-app[data-key="perms"] .perm-group__t{display:none}
+.admin-app[data-key="perms"] .perm-cap-grid{display:contents}
+.admin-app[data-key="perms"] .capability,
+.admin-app[data-key="perms"] .permission-row{
+  min-height:50px;padding:8px 24px;display:flex;align-items:center;gap:14px;
+  border:0;border-bottom:1px solid var(--adm-bd-subtle);background:#fff
 }
-@media (max-width:980px){
+.admin-app[data-key="perms"] .capability:hover,
+.admin-app[data-key="perms"] .permission-row:hover{background:var(--adm-head-bg)}
+.admin-app[data-key="perms"] .cap-left{min-width:0;flex:1}
+.admin-app[data-key="perms"] .cap-title{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text)
+}
+.admin-app[data-key="perms"] .cap-title .u-faint{
+  margin:0;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);font-weight:400;color:var(--text-3)
+}
+.admin-app[data-key="perms"] .cap-check{margin-left:auto;display:flex;align-items:center;gap:8px;flex:none}
+.admin-app[data-key="perms"] .cap-note,
+.admin-app[data-key="perms"] .locked-tip{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="perms"] .t-locked{margin-left:auto;flex:none}
+.admin-app[data-key="perms"] .ped-readonly{
+  margin:0;padding:8px 24px;border:0;border-bottom:1px solid var(--adm-bd-subtle);background:var(--adm-head-bg)
+}
+
+/* owner / MANAGE 只作为底部一条治理行，不做大卡片 */
+.admin-app[data-key="perms"] .pd-danger{
+  margin:0;border:0;border-radius:0;border-top:1px solid var(--adm-bd-default);background:#fff
+}
+.admin-app[data-key="perms"] .pd-row{
+  min-height:58px;padding:10px 24px;display:flex;align-items:center;gap:16px
+}
+.admin-app[data-key="perms"] .pd-t{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600;color:var(--text)}
+.admin-app[data-key="perms"] .pd-copy{
+  margin-top:2px;max-width:560px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)
+}
+.admin-app[data-key="perms"] .pd-ops{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
+
+/* 底部操作栏固定且简单 */
+.admin-app[data-key="perms"] .ped-foot{
+  position:sticky;bottom:0;z-index:4;flex:none;min-height:52px;padding:8px 24px;display:flex;align-items:center;gap:8px;
+  border-top:1px solid var(--adm-bd-default);background:#fff
+}
+.admin-app[data-key="perms"] .ped-foot .spacer{flex:1}
+.admin-app[data-key="perms"] .pe-save-note{
+  max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)
+}
+
+@media (max-width:1320px){
   .admin-app[data-key="perms"] .perm-cols{grid-template-columns:220px minmax(0,1fr)}
   .admin-app[data-key="perms"] .pe-scope{display:none}
+  .admin-app[data-key="perms"] .pe-presets .lbl{display:none}
+}
+@media (max-width:1120px){
+  .admin-app[data-key="perms"] .preset:nth-of-type(2),
+  .admin-app[data-key="perms"] .preset:nth-of-type(3){display:none}
   .admin-app[data-key="perms"] .pe-save-note{display:none}
 }
