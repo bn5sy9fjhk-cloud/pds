@@ -26,6 +26,17 @@ var RKEY = {
   filegov: 'folder', quota: 'quota', audit: 'audit', syscfg: 'settings'
 };
 
+/* org.html 是管理中心唯一视觉母版。
+   org 本身不加载覆盖层；其它页面加载 admin-org-baseline.css，只向 org 收口。
+   这样不会反向改变用户已确认的 org 视觉结果。 */
+function loadOrgBaseline(){
+  if (KEY === 'org' || document.querySelector('link[data-org-baseline]')) return;
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '../admin-org-baseline.css';
+  link.setAttribute('data-org-baseline', 'true');
+  document.head.appendChild(link);
+}
 
 function nameOf(k){ var t = k; for (var i = 0; i < NAV.length; i++){ for (var j = 0; j < NAV[i].items.length; j++){ if (NAV[i].items[j][0] === k) t = NAV[i].items[j][1]; } } return t; }
 
@@ -64,6 +75,7 @@ function SC(){
   return (window.UIScale) ? window.UIScale : null;
 }
 function bootCurrent(){
+  loadOrgBaseline();
   buildTopbar();
   buildNav();
   var n = document.querySelectorAll('#mNav .a-nav-item');
