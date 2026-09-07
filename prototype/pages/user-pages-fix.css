@@ -1,0 +1,63 @@
+/* 霍桐PDS 用户端 pages 固定视觉层 */
+/* 最后加载，禁止外部缩放影响用户端页面 */
+body[data-page],body[data-page] *{
+  box-sizing:border-box;
+}
+body[data-page]{
+  font-size:14px!important;
+  line-height:20px!important;
+}
+body[data-page] .topbar{
+  height:56px!important;
+  min-height:56px!important;
+}
+body[data-page] .sidebar{
+  width:220px!important;
+  min-width:220px!important;
+}
+body[data-page] .nav-item,
+body[data-page] .tree-row{
+  height:36px!important;
+  min-height:36px!important;
+  font-size:14px!important;
+  line-height:20px!important;
+  font-weight:400;
+}
+body[data-page] .nav-item--on,
+body[data-page] .tree-row.is-on{
+  font-weight:400!important;
+}
+body[data-page] svg{
+  flex:none;
+}
+body[data-page] .nav-item svg{
+  width:16px!important;
+  height:16px!important;
+}
+body[data-page] .tree-row svg{
+  width:16px!important;
+  height:16px!important;
+}
+body[data-page] .read-ico svg{
+  width:18px!important;
+  height:18px!important;
+}
+body[data-page] .read-row{
+  height:42px!important;
+  min-height:42px!important;
+  font-size:13px!important;
+}
+body[data-page] .read-name{
+  font-size:14px!important;
+  font-weight:400!important;
+}
+body[data-page] .btn,
+body[data-page] button{
+  font-size:13px!important;
+}
+/* active 只改变颜色，不改变尺寸 */
+body[data-page] .nav-item--on,
+body[data-page] .tree-row.is-on{
+ background:var(--nav-on);
+ color:var(--primary);
+}
