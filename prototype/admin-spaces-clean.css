@@ -1,0 +1,50 @@
+/* 空间管理简化层级：只保留 部门选择 / 容量摘要 / 成员表 */
+.admin-app[data-key="spaces"] .spaces-clean-layout{grid-template-columns:var(--org-side-w) minmax(0,1fr);gap:0;min-height:0;flex:1}
+.admin-app[data-key="spaces"] .spaces-clean-side{height:100%;border:0;border-right:1px solid var(--adm-bd-default)}
+.admin-app[data-key="spaces"] .spaces-clean-side>.panel__head{min-height:32px;padding:2px var(--adm-page-x) 0;border:0}
+.admin-app[data-key="spaces"] .spaces-clean-side>.panel__head .t{font-size:var(--fs-label);line-height:18px;font-weight:500;color:var(--text-2)}
+.admin-app[data-key="spaces"] .spaces-clean-side>.panel__head .u{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="spaces"] .spaces-clean-side .dtree-body{padding:6px}
+.admin-app[data-key="spaces"] .spaces-clean-nav{min-height:var(--side-row-h);padding:4px 8px;margin:1px 0;align-items:center;gap:8px}
+.admin-app[data-key="spaces"] .spaces-clean-nav .sp-nav__t{font-size:var(--fs-body);line-height:var(--fs-body-lh);font-weight:500}
+.admin-app[data-key="spaces"] .spaces-clean-nav .sp-nav__s{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="spaces"] .spaces-clean-main{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:0;border-radius:0;background:#fff}
+.admin-app[data-key="spaces"] .spaces-clean-summary{display:flex;align-items:center;gap:20px;min-height:70px;padding:10px var(--adm-page-x);border-bottom:1px solid var(--adm-bd-default);background:#fff}
+.admin-app[data-key="spaces"] .spaces-clean-summary__name{display:flex;align-items:center;gap:10px;min-width:220px}
+.admin-app[data-key="spaces"] .spaces-clean-summary__name>span:last-child{display:flex;flex-direction:column;min-width:0}
+.admin-app[data-key="spaces"] .spaces-clean-summary__name b{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600;color:var(--text)}
+.admin-app[data-key="spaces"] .spaces-clean-summary__name small{margin-top:2px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-app[data-key="spaces"] .spaces-clean-folder{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex:none;color:var(--text-2);background:var(--adm-head-bg);border-radius:var(--radius-s)}
+.admin-app[data-key="spaces"] .spaces-clean-metrics{display:flex;align-items:center;gap:24px}
+.admin-app[data-key="spaces"] .spaces-clean-metrics>span{display:flex;flex-direction:column;min-width:72px}
+.admin-app[data-key="spaces"] .spaces-clean-metrics small{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="spaces"] .spaces-clean-metrics b{margin-top:1px;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+.admin-app[data-key="spaces"] .spaces-clean-breakdown{margin-left:auto;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3);white-space:nowrap}
+.admin-app[data-key="spaces"] .spaces-clean-table{flex:1;min-height:0;overflow:auto;padding:0!important}
+.admin-app[data-key="spaces"] .spaces-clean-table>.tbl-scroll{min-height:100%;overflow:visible}
+.admin-app[data-key="spaces"] .spaces-clean-table .table-x{table-layout:fixed}
+.admin-app[data-key="spaces"] .spaces-clean-table .table-x td{height:var(--row-double)}
+.admin-app[data-key="spaces"] .spaces-clean-table .member-dept{margin-top:1px}
+.admin-app[data-key="spaces"] .space-num{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-variant-numeric:tabular-nums;color:var(--text)}
+.admin-app[data-key="spaces"] .space-num b{font-weight:600}
+.admin-app[data-key="spaces"] .space-usage{display:inline-flex;align-items:center;gap:10px;min-width:150px;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-2);font-variant-numeric:tabular-nums}
+.admin-app[data-key="spaces"] .space-usage__bar{display:inline-block;width:108px;height:6px;background:var(--adm-bd-subtle);border-radius:4px;overflow:hidden}
+.admin-app[data-key="spaces"] .space-usage__bar i{display:block;height:100%;background:var(--primary);border-radius:4px}
+.admin-app[data-key="spaces"] .space-state{display:inline-flex;align-items:center;font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
+.admin-app[data-key="spaces"] .space-state.is-warn{color:var(--warn)}
+.admin-app[data-key="spaces"] .space-state.is-danger{color:var(--danger)}
+.admin-app[data-key="spaces"] .space-dialog-summary{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.admin-app[data-key="spaces"] .space-dialog-summary b{font-size:var(--fs-main);line-height:var(--fs-main-lh)}
+.admin-app[data-key="spaces"] .space-dialog-summary span{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="spaces"] .space-quota-field{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.admin-app[data-key="spaces"] .space-quota-field .inp{width:150px}
+@media (max-width:1280px){
+  .admin-app[data-key="spaces"] .spaces-clean-summary{gap:14px}
+  .admin-app[data-key="spaces"] .spaces-clean-metrics{gap:16px}
+  .admin-app[data-key="spaces"] .spaces-clean-breakdown{display:none}
+}
+@media (max-width:1080px){
+  .admin-app[data-key="spaces"] .spaces-clean-layout{grid-template-columns:220px minmax(0,1fr)}
+  .admin-app[data-key="spaces"] .spaces-clean-summary__name{min-width:180px}
+  .admin-app[data-key="spaces"] .spaces-clean-metrics>span:nth-child(2){display:none}
+}
