@@ -1,70 +1,70 @@
-/* 霍桐PDS · 系统配置 V2
-   目标：保持 org 的字号/行距/密度基线，减少“配置卡片墙”感，改成企业后台常见的设置清单。 */
+/* 霍桐PDS · 系统配置 V3
+   单列连续设置页：不使用右侧栏，避免任何固定宽度导致的遮挡或横向溢出。
+   字号、行距、分割线继续沿用 org 管理端基线。 */
 .admin-app[data-key="syscfg"] .admin-page-head__meta{display:none}
 .admin-app[data-key="syscfg"] .admin-page-head{padding-top:12px;padding-bottom:12px}
-.admin-app[data-key="syscfg"] .admin-toolbar{min-height:50px;padding-top:7px;padding-bottom:7px;border-bottom:1px solid var(--adm-bd-default)}
-.admin-app[data-key="syscfg"] .admin-toolbar .toolbar-left{min-width:0}
-.admin-app[data-key="syscfg"] .admin-toolbar .toolbar-left .u-faint{font-size:var(--fs-sub);line-height:var(--fs-sub-lh)}
-.admin-app[data-key="syscfg"] .admin-toolbar .toolbar-right{gap:10px}
+.admin-app[data-key="syscfg"] .admin-toolbar{min-height:50px;padding:7px var(--adm-page-x);border-bottom:1px solid var(--adm-bd-default);gap:12px;flex-wrap:wrap}
+.admin-app[data-key="syscfg"] .admin-toolbar .toolbar-left{min-width:220px;flex:1}
+.admin-app[data-key="syscfg"] .admin-toolbar .toolbar-right{min-width:0;gap:10px}
 .admin-app[data-key="syscfg"] #lastSave{white-space:nowrap}
 
-/* 整体布局：左侧分组导航 + 右侧连续设置区 */
-.admin-app[data-key="syscfg"] .cfg-layout{display:grid;grid-template-columns:196px minmax(0,1fr);gap:0;flex:1;min-height:0;margin:0;background:#fff}
-.admin-app[data-key="syscfg"] .cfg-col{min-width:0;overflow:auto;border:0;background:#fff}
-.admin-app[data-key="syscfg"] .cfg-aside{grid-column:1;grid-row:1;width:auto;min-width:0;padding:0;border-right:1px solid var(--adm-bd-default);background:#fff;overflow:auto}
-.admin-app[data-key="syscfg"] .cfg-col{grid-column:2;grid-row:1}
+/* 页面只保留一个可滚动主体，彻底取消右侧固定栏 */
+.admin-app[data-key="syscfg"] .cfg-layout{display:block;flex:1;min-width:0;min-height:0;margin:0;background:#fff;overflow:hidden}
+.admin-app[data-key="syscfg"] .cfg-col{width:100%;min-width:0;height:100%;overflow:auto;background:#fff}
+.admin-app[data-key="syscfg"] .cfg-aside{display:none!important}
 
-/* 左侧不做信息卡，做设置导航 */
-.admin-app[data-key="syscfg"] .cfg-aside .panel{border:0;border-radius:0;box-shadow:none;background:#fff}
-.admin-app[data-key="syscfg"] .cfg-aside .panel__head{height:38px;min-height:38px;padding:0 14px;background:#fff;border:0;border-bottom:1px solid var(--adm-bd-subtle)}
-.admin-app[data-key="syscfg"] .cfg-aside .panel__head .t{font-size:var(--fs-label);line-height:18px;font-weight:500;color:var(--text-2)}
-.admin-app[data-key="syscfg"] #recentCfg{padding:4px 6px}
-.admin-app[data-key="syscfg"] #recentCfg .a-kv{min-height:48px;padding:7px 8px;border:0;border-radius:6px;display:flex;flex-direction:column;justify-content:center;gap:2px}
-.admin-app[data-key="syscfg"] #recentCfg .a-kv:hover{background:var(--adm-head-bg)}
-.admin-app[data-key="syscfg"] #recentCfg dt{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text)}
-.admin-app[data-key="syscfg"] #recentCfg dd{margin:0;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
-.admin-app[data-key="syscfg"] .aside-actions{padding:10px 10px 12px;margin:4px 0 0;border-top:1px solid var(--adm-bd-subtle);display:flex;flex-direction:column;gap:6px}
-.admin-app[data-key="syscfg"] .aside-actions .btn{width:100%;height:30px;justify-content:flex-start;padding:0 9px;background:#fff}
-
-/* 右侧：连续分组，不使用大卡片 */
-.admin-app[data-key="syscfg"] .form-sec{margin:0;border:0;border-radius:0;background:#fff;box-shadow:none}
+/* 分组是连续设置区，不做卡片 */
+.admin-app[data-key="syscfg"] .form-sec{width:100%;min-width:0;margin:0;border:0;border-radius:0;box-shadow:none;background:#fff}
 .admin-app[data-key="syscfg"] .form-sec+.form-sec{border-top:1px solid var(--adm-bd-default)}
-.admin-app[data-key="syscfg"] .form-sec__t{min-height:50px;padding:0 24px;display:flex;align-items:center;gap:12px;border:0;border-bottom:1px solid var(--adm-bd-subtle);background:#fff;font-size:var(--fs-module);line-height:var(--fs-module-lh);font-weight:600;color:var(--text)}
-.admin-app[data-key="syscfg"] .form-sec__t small{font-size:var(--fs-sub);line-height:var(--fs-sub-lh);font-weight:400;color:var(--text-3)}
-.admin-app[data-key="syscfg"] .form-sec__b{display:block;padding:0 24px;background:#fff}
+.admin-app[data-key="syscfg"] .form-sec__t{box-sizing:border-box;width:100%;min-height:48px;padding:0 var(--adm-page-x);display:flex;align-items:center;gap:10px;border:0;border-bottom:1px solid var(--adm-bd-subtle);background:var(--adm-head-bg);font-size:var(--fs-module);line-height:var(--fs-module-lh);font-weight:600;color:var(--text)}
+.admin-app[data-key="syscfg"] .form-sec__t small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);font-weight:400;color:var(--text-3)}
+.admin-app[data-key="syscfg"] .form-sec__b{box-sizing:border-box;width:100%;min-width:0;padding:0 var(--adm-page-x);background:#fff}
 
-/* 每个配置项改成“设置列表行” */
-.admin-app[data-key="syscfg"] .form-field{min-height:64px;padding:10px 0;display:grid;grid-template-columns:minmax(170px,220px) minmax(280px,520px) minmax(0,1fr);align-items:center;gap:16px;border-bottom:1px solid var(--adm-bd-subtle)}
+/* 每项固定为“名称 / 控件”两列。说明放到控件下方，不再占第三列。 */
+.admin-app[data-key="syscfg"] .form-field{box-sizing:border-box;width:100%;min-width:0;min-height:62px;margin:0;padding:10px 0;display:grid;grid-template-columns:180px minmax(0,1fr);align-items:center;column-gap:20px;row-gap:5px;border-bottom:1px solid var(--adm-bd-subtle)}
 .admin-app[data-key="syscfg"] .form-field:last-child{border-bottom:0}
-.admin-app[data-key="syscfg"] .form-field .field-label{font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text-2)}
-.admin-app[data-key="syscfg"] .form-field .inp,.admin-app[data-key="syscfg"] .form-field .sel{width:100%;height:34px;max-width:520px}
-.admin-app[data-key="syscfg"] .form-field .link-btn{justify-self:start}
-.admin-app[data-key="syscfg"] .form-field.wide{grid-column:auto!important;display:grid!important;grid-template-columns:minmax(170px,220px) minmax(280px,520px) minmax(0,1fr)!important;padding-left:0!important;padding-right:0!important;align-items:center!important}
+.admin-app[data-key="syscfg"] .form-field .field-label{min-width:0;font-size:var(--fs-main);line-height:var(--fs-main-lh);font-weight:500;color:var(--text-2)}
+.admin-app[data-key="syscfg"] .form-field>.inp,
+.admin-app[data-key="syscfg"] .form-field>.sel{box-sizing:border-box;width:min(100%,620px);min-width:0;height:34px;justify-self:start}
+.admin-app[data-key="syscfg"] .form-field .inp,
+.admin-app[data-key="syscfg"] .form-field .sel{border-color:var(--adm-bd-default);border-radius:6px;background:#fff}
+.admin-app[data-key="syscfg"] .form-field .inp:focus,
+.admin-app[data-key="syscfg"] .form-field .sel:focus{border-color:var(--primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--primary) 9%,transparent)}
+.admin-app[data-key="syscfg"] .form-field>.link-btn{grid-column:2;justify-self:start;margin-top:-2px}
+.admin-app[data-key="syscfg"] .field-hint{grid-column:2!important;min-width:0;margin:0!important;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+
+/* Bucket 行：内部自适应，不允许按钮挤出容器 */
+.admin-app[data-key="syscfg"] .form-field.wide{box-sizing:border-box;grid-column:auto!important;display:grid!important;grid-template-columns:180px minmax(0,1fr)!important;align-items:center!important;padding-left:0!important;padding-right:0!important}
 .admin-app[data-key="syscfg"] .form-field.wide>.field-label{padding-top:0!important}
-.admin-app[data-key="syscfg"] .form-field.wide>div{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
-.admin-app[data-key="syscfg"] .field-hint{grid-column:3!important;margin:0!important;font-size:var(--fs-sub);line-height:var(--fs-sub-lh);color:var(--text-3)}
+.admin-app[data-key="syscfg"] .form-field.wide>div{box-sizing:border-box;width:min(100%,720px);min-width:0;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;align-items:center!important}
+.admin-app[data-key="syscfg"] .form-field.wide>div .inp{box-sizing:border-box;width:100%!important;min-width:0}
+.admin-app[data-key="syscfg"] #testConn{height:30px;padding:0 10px;white-space:nowrap}
 
-/* 输入框弱化边框，按钮保持管理后台标准 */
-.admin-app[data-key="syscfg"] .form-field :is(.inp,.sel){border-color:var(--adm-bd-default);border-radius:6px;background:#fff}
-.admin-app[data-key="syscfg"] .form-field :is(.inp,.sel):focus{border-color:var(--primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--primary) 9%,transparent)}
-.admin-app[data-key="syscfg"] #testConn{height:30px;padding:0 10px}
+/* 将辅助动作放到顶部工具栏后，不再占页面右侧 */
+.admin-app[data-key="syscfg"] .syscfg-tools{display:flex;align-items:center;gap:6px;min-width:0}
+.admin-app[data-key="syscfg"] .syscfg-tools .btn{height:30px;padding:0 10px;white-space:nowrap}
 
-/* S/M/L */
-body[data-ui-scale="s"] .admin-app[data-key="syscfg"] .cfg-layout{grid-template-columns:184px minmax(0,1fr)}
-body[data-ui-scale="s"] .admin-app[data-key="syscfg"] .form-field{min-height:58px;grid-template-columns:156px minmax(240px,460px) minmax(0,1fr);gap:12px}
-body[data-ui-scale="l"] .admin-app[data-key="syscfg"] .cfg-layout{grid-template-columns:214px minmax(0,1fr)}
-body[data-ui-scale="l"] .admin-app[data-key="syscfg"] .form-field{min-height:70px;grid-template-columns:200px minmax(320px,560px) minmax(0,1fr)}
+body[data-ui-scale="s"] .admin-app[data-key="syscfg"] .form-field,
+body[data-ui-scale="s"] .admin-app[data-key="syscfg"] .form-field.wide{grid-template-columns:156px minmax(0,1fr)!important;column-gap:16px;min-height:56px}
+body[data-ui-scale="l"] .admin-app[data-key="syscfg"] .form-field,
+body[data-ui-scale="l"] .admin-app[data-key="syscfg"] .form-field.wide{grid-template-columns:200px minmax(0,1fr)!important;column-gap:24px;min-height:68px}
 
-@media (max-width:1180px){
-  .admin-app[data-key="syscfg"] .cfg-layout{grid-template-columns:170px minmax(0,1fr)}
-  .admin-app[data-key="syscfg"] .form-field{grid-template-columns:150px minmax(220px,1fr);gap:12px}
-  .admin-app[data-key="syscfg"] .field-hint{grid-column:2!important;margin-top:-4px!important}
-  .admin-app[data-key="syscfg"] .form-field.wide{grid-template-columns:150px minmax(220px,1fr)!important}
+@media (max-width:1100px){
+  .admin-app[data-key="syscfg"] .admin-toolbar .toolbar-left{flex-basis:100%}
+  .admin-app[data-key="syscfg"] .admin-toolbar .toolbar-right{width:100%;justify-content:flex-end}
+  .admin-app[data-key="syscfg"] .form-field,
+  .admin-app[data-key="syscfg"] .form-field.wide{grid-template-columns:150px minmax(0,1fr)!important;column-gap:16px}
 }
-@media (max-width:920px){
-  .admin-app[data-key="syscfg"] .cfg-layout{grid-template-columns:1fr}
-  .admin-app[data-key="syscfg"] .cfg-aside{display:none}
-  .admin-app[data-key="syscfg"] .cfg-col{grid-column:1}
-  .admin-app[data-key="syscfg"] .form-field,.admin-app[data-key="syscfg"] .form-field.wide{grid-template-columns:1fr!important;gap:7px;padding:12px 0}
-  .admin-app[data-key="syscfg"] .field-hint{grid-column:1!important;margin:0!important}
+@media (max-width:760px){
+  .admin-app[data-key="syscfg"] .form-sec__t{align-items:flex-start;flex-direction:column;gap:1px;padding-top:8px;padding-bottom:8px}
+  .admin-app[data-key="syscfg"] .form-sec__t small{white-space:normal}
+  .admin-app[data-key="syscfg"] .form-field,
+  .admin-app[data-key="syscfg"] .form-field.wide{grid-template-columns:1fr!important;gap:7px;padding:12px 0}
+  .admin-app[data-key="syscfg"] .form-field>.inp,
+  .admin-app[data-key="syscfg"] .form-field>.sel,
+  .admin-app[data-key="syscfg"] .form-field.wide>div{width:100%;max-width:none}
+  .admin-app[data-key="syscfg"] .form-field>.link-btn,
+  .admin-app[data-key="syscfg"] .field-hint{grid-column:1!important}
+  .admin-app[data-key="syscfg"] .admin-toolbar .toolbar-right{justify-content:flex-start;flex-wrap:wrap}
+  .admin-app[data-key="syscfg"] #lastSave{width:100%;white-space:normal}
 }
